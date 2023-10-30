@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      gitsumu|info:
+        generate_for:
+          # Only generate for lib/example.dart => example.g.dart
+          - lib/example.dart
+        # Uncomment the following "build_extensions" config if you want to generate
+        # code into specified folder, such as "lib/generated".
+        # At the same time, you shall use "part of 'generated/xxx.g.dart' in your source file
+        # instead of current "part of 'xxx.g.dart'".
+        # Also, it is recommended to put "lib/generated" folder in .gitignore.
+        #options:
+        #  build_extensions:
+        #    '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'

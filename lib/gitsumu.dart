@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 Future<(String, String)> _runCommand(String command, List<String> args) async {
@@ -5,7 +6,7 @@ Future<(String, String)> _runCommand(String command, List<String> args) async {
   return (commandResult.stdout as String, commandResult.stderr as String);
 }
 
-Future<String?> gitRevisionLong() async {
+Future<String?> getGitRevisionLong() async {
   final (out, err) = await _runCommand('git', [
     '--no-pager',
     'show',
@@ -22,7 +23,7 @@ Future<String?> gitRevisionLong() async {
   return out.trim();
 }
 
-Future<String?> gitRevisionShort() async {
+Future<String?> getGitRevisionShort() async {
   final (out, err) = await _runCommand('git', [
     '--no-pager',
     'show',
@@ -39,7 +40,7 @@ Future<String?> gitRevisionShort() async {
   return out.trim();
 }
 
-Future<String?> gitTimeLong() async {
+Future<String?> getGitTimeLong() async {
   final (out, err) = await _runCommand('git', [
     '--no-pager',
     'show',
@@ -57,7 +58,7 @@ Future<String?> gitTimeLong() async {
   return out.trim();
 }
 
-Future<String?> gitTimeShort() async {
+Future<String?> getGitTimeShort() async {
   final (out, err) = await _runCommand('git', [
     '--no-pager',
     'show',
@@ -75,6 +76,26 @@ Future<String?> gitTimeShort() async {
   return out.trim();
 }
 
-int calculate() {
-  return 6 * 7;
+Future<String?> getFlutterVersion() async {
+  final (out, err) = await _runCommand('flutter', ['--version']);
+  if (err.isNotEmpty) {
+    return null;
+  }
+
+  final re = RegExp(r'^Flutter (?<version>[0-9.]+).*');
+  final reMatch = re.firstMatch(out.trim());
+  final versionString = reMatch?.namedGroup('version');
+  return versionString;
+}
+
+Future<String?> getDartVersion() async {
+  final (out, err) = await _runCommand('dart', ['--version']);
+  if (err.isNotEmpty) {
+    return null;
+  }
+
+  final re = RegExp(r'^Dart SDK version: (?<version>[0-9.]+ \(\w+\)).*');
+  final reMatch = re.firstMatch(out.trim());
+  final versionString = reMatch?.namedGroup('version');
+  return versionString;
 }
