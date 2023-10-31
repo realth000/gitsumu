@@ -5,7 +5,9 @@ part 'example.g.dart';
 
 void printInfo() {
   print('revision: $gitCommitRevisionShort ($gitCommitRevisionLong)');
-  print('times:    $gitCommitTimeShort ($gitCommitTimeLong)');
-  print('built with flutter: $flutterVersion');
+  print(
+      'git commit:    $gitCommitTimeYear-$gitCommitTimeMonth-$gitCommitTimeDay $gitCommitTimeHour:$gitCommitTimeMinute:$gitCommitTimeSecond $gitCommitTimeTimezone}');
+  print(
+      'built with flutter: $flutterVersion $flutterChannel (framework=$flutterFrameworkRevision engine=$flutterEngineRevision)');
   print('built with dart: $dartVersion');
 }

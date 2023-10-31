@@ -11,17 +11,11 @@ class InfoGenerator extends Generator {
     // Usually the path here is "lib/xxx/xxx.dart", use absolute path"/xxx/xxx.dart"
     // to make sure "part" and "part of" works.
     final sourceFilePath = buildStep.inputId.path.replaceFirst('lib', '');
-    final timeLong = await getGitTimeLong();
-    if (timeLong == null) {
+    final gitCommitTimeInfo = await getGitTime();
+    if (gitCommitTimeInfo == null) {
       return null;
     }
     // print(timeLong);
-
-    final timeShort = await getGitTimeShort();
-    if (timeShort == null) {
-      return null;
-    }
-    // print(timeShort);
 
     final revisionLong = await getGitRevisionLong();
     if (revisionLong == null) {
@@ -35,8 +29,8 @@ class InfoGenerator extends Generator {
     }
     // print(revisionShort);
 
-    final flutterVersion = await getFlutterVersion();
-    if (flutterVersion == null) {
+    final flutterInfo = await getFlutterVersion();
+    if (flutterInfo == null) {
       return null;
     }
 
@@ -49,12 +43,23 @@ class InfoGenerator extends Generator {
 part of '$sourceFilePath';
 
 // Compile environment
-const flutterVersion         = '$flutterVersion';
+const flutterVersion         = '${flutterInfo.version}';
+const flutterChannel         = '${flutterInfo.channel}';
+const flutterFrameworkRevision  = '${flutterInfo.frameworkRevision}';
+const flutterFrameworkTimestamp = '${flutterInfo.frameworkTimestamp}';
+const flutterEngineRevision  = '${flutterInfo.engineRevision}';
+const flutterDartVersion     = '${flutterInfo.dartVersion}';
+const flutterDevToolsVersion = '${flutterInfo.devToolsVersion}';
 const dartVersion            = '$dartVersion';
 
 // Repo info
-const gitCommitTimeLong      = '$timeLong';
-const gitCommitTimeShort     = '$timeShort';
+const gitCommitTimeYear      = '${gitCommitTimeInfo.year}';
+const gitCommitTimeMonth     = '${gitCommitTimeInfo.month}';
+const gitCommitTimeDay       = '${gitCommitTimeInfo.day}';
+const gitCommitTimeHour      = '${gitCommitTimeInfo.hour}';
+const gitCommitTimeMinute    = '${gitCommitTimeInfo.minute}';
+const gitCommitTimeSecond    = '${gitCommitTimeInfo.second}';
+const gitCommitTimeTimezone  = '${gitCommitTimeInfo.timeZone}';
 const gitCommitRevisionLong  = '$revisionLong';
 const gitCommitRevisionShort = '$revisionShort';
 ''';

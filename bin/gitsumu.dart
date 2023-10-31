@@ -1,17 +1,11 @@
 import 'package:gitsumu/gitsumu.dart' as gitsumu;
 
 void main(List<String> arguments) async {
-  final gitTimeLong = await gitsumu.getGitTimeLong();
-  if (gitTimeLong == null) {
+  final gitInfo = await gitsumu.getGitTime();
+  if (gitInfo == null) {
     return;
   }
-  print(gitTimeLong);
-
-  final gitTimeShort = await gitsumu.getGitTimeShort();
-  if (gitTimeShort == null) {
-    return;
-  }
-  print(gitTimeShort);
+  print(gitInfo);
 
   final gitRevisionLong = await gitsumu.getGitRevisionLong();
   if (gitRevisionLong == null) {
@@ -24,4 +18,16 @@ void main(List<String> arguments) async {
     return;
   }
   print(gitRevisionShort);
+
+  final flutterInfo = await gitsumu.getFlutterVersion();
+  if (flutterInfo != null) {
+    return;
+  }
+  print(flutterInfo);
+
+  final dartInfo = await gitsumu.getDartVersion();
+  if (dartInfo == null) {
+    return;
+  }
+  print(dartInfo);
 }

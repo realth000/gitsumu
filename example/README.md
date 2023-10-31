@@ -9,10 +9,8 @@ Example usage package for gitsumu.
 2. run `dart run` will show info like following:
 
 ```
-Building package executable...
-Built example:example.
-revision: 88f8998 (88f899867b6542bf6f453bdf2ce0dfd5bdde75f2)
-times:    2023-10-29 (2023-10-29 15:08:54 +0800)
-built with flutter: 3.13.9
+revision: e0356a4 (e0356a43e7b3e2fcd106500ec452a3fd3f14c85f)
+git commit:    2023-10-30 15:20:52 +0800}
+built with flutter: 3.13.9 stable (framework=d211f42860 engine=0545f8705d)
 built with dart: 3.1.5 (stable)
 ```
