@@ -5,10 +5,18 @@ import 'package:build/build.dart';
 import 'package:gitsumu/src/info_generator.dart';
 import 'package:source_gen/source_gen.dart';
 
-Builder infoBuilder(BuilderOptions options) => LibraryBuilder(
+Builder infoBuilder(BuilderOptions options) {
+  // FIXME: Empty config maybe due to run as depencency not dev_dependency.
+  // Here we get an empty config.
+  // Overwrite build_extensions to avoid conflict with other builder.
+  final config = options.config;
+  config['build_extensions'] =  {".dart": [ ".git.dart" ]};
+  final opt = BuilderOptions(config);
+  return LibraryBuilder(
       InfoGenerator(),
-      options: options,
-    );
+      options: opt,
+      );
+}
 
 class GitCommitTimeInfo {
   const GitCommitTimeInfo({

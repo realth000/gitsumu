@@ -1,4 +1,4 @@
-part 'example.g.dart';
+part 'example.git.dart';
 
 // Use this "part" statement if generated file is specified to be in "lib/generated" folder.
 // part 'generated/example.g.dart';

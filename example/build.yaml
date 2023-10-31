@@ -12,4 +12,4 @@ targets:
         # Also, it is recommended to put "lib/generated" folder in .gitignore.
         #options:
         #  build_extensions:
-        #    '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
+        #    '^lib/{{}}.dart': 'lib/generated/{{}}.git.dart'

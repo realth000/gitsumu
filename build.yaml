@@ -1,7 +1,7 @@
 builders:
   info:
-    import: "package:gitsumu/builder.dart"
+    import: "package:gitsumu/gitsumu.dart"
     builder_factories: [ "infoBuilder" ]
-    build_extensions: { ".dart": [ ".g.dart" ] }
+    build_extensions: { ".dart": [ ".git.dart" ] }
     auto_apply: dependents
     build_to: source
