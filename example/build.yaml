@@ -10,6 +10,6 @@ targets:
         # At the same time, you shall use "part of 'generated/xxx.g.dart' in your source file
         # instead of current "part of 'xxx.g.dart'".
         # Also, it is recommended to put "lib/generated" folder in .gitignore.
-        #options:
-        #  build_extensions:
-        #    '^lib/{{}}.dart': 'lib/generated/{{}}.git.dart'
+        options:
+          build_extensions:
+            '^lib/{{}}.dart': 'lib/generated/{{}}.git.dart'
