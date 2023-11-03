@@ -8,7 +8,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  analyzer: ^6.3.0
+  analyzer: ^6.2.0
   build: ^2.4.1
   source_gen: ^1.4.0
   # path: ^1.8.0
