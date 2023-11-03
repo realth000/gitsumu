@@ -15,6 +15,7 @@ Dart package provides code about compile environment.
 
 * Easier to use than `dart-define`: Only requires `build_runner`, one command at compile time.
 * Use info like const variables: All info generated are const variables.
+* Only dev dependency: Use as dev dependency.
 
 ## Usage
 
@@ -22,9 +23,8 @@ Dart package provides code about compile environment.
 
 1. Add `gitsumu` and `build_runner` to `pubspec.yaml`.
    ``` yaml
-   dependencies:
-     gitsumu: # current version
    dev_dependencies:
+     gitsumu: # current version
      build_runner: # current version or any version
    ```
 2. Create a source file to let `gitsumu` generate code, such as "lib/example.dart".

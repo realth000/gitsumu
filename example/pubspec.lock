@@ -186,7 +186,7 @@ packages:
     source: hosted
     version: "3.2.0"
   gitsumu:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       path: ".."
       relative: true
