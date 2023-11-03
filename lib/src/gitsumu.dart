@@ -1,17 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:build/build.dart';
-import 'package:gitsumu/src/info_generator.dart';
-import 'package:source_gen/source_gen.dart';
-
-Builder infoBuilder(BuilderOptions options) {
-  return LibraryBuilder(
-      InfoGenerator(),
-      options: options,
-      );
-}
-
 class GitCommitTimeInfo {
   const GitCommitTimeInfo({
     required this.year,
