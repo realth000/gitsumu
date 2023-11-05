@@ -6,6 +6,7 @@ import 'package:source_gen/source_gen.dart';
 
 class InfoGenerator extends Generator {
   InfoGenerator(this.options);
+
   final BuilderOptions options;
 
   @override

@@ -1,4 +1,4 @@
-import 'package:gitsumu/gitsumu.dart' as gitsumu;
+import 'package:gitsumu/src/gitsumu.dart' as gitsumu;
 
 void main(List<String> arguments) async {
   final gitInfo = await gitsumu.getGitTime();
