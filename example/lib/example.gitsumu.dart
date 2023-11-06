@@ -13,10 +13,10 @@ const dartVersion            = '3.1.5 (stable)';
 // Repo info
 const gitCommitTimeYear      = '2023';
 const gitCommitTimeMonth     = '11';
-const gitCommitTimeDay       = '06';
-const gitCommitTimeHour      = '20';
-const gitCommitTimeMinute    = '02';
-const gitCommitTimeSecond    = '30';
+const gitCommitTimeDay       = '07';
+const gitCommitTimeHour      = '05';
+const gitCommitTimeMinute    = '24';
+const gitCommitTimeSecond    = '09';
 const gitCommitTimeTimezone  = '+0800';
-const gitCommitRevisionLong  = '8ca7fa9edfd5fca83bfeaf7d93d161f49d295ed8';
-const gitCommitRevisionShort = '8ca7fa9';
+const gitCommitRevisionLong  = '892f5b742dc438b22805422104aadd95af9a7dec';
+const gitCommitRevisionShort = '892f5b7';

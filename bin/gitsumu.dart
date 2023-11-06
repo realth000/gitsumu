@@ -6,6 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:gitsumu/src/gitsumu.dart' as gitsumu;
 import 'package:gitsumu/src/info.dart';
 import 'package:path/path.dart' as path;
+import 'package:yaml/yaml.dart';
 
 late final ArgResults opts;
 
@@ -45,7 +46,7 @@ Future<void> main(List<String> arguments) async {
   // Actually we should do the same logic in lib/src/generate/expected_outputs.dart
   // But we do this in a lighter way which covers less conditions but still ok.
   String? outputPath;
-  if (buildExtension != null && buildExtension is Map<String, String>) {
+  if (buildExtension != null && buildExtension is YamlMap) {
     for (final ext in buildExtension.keys) {
       if (!ext.contains('{{}}')) {
         // Plain text
@@ -58,12 +59,12 @@ Future<void> main(List<String> arguments) async {
 
       vp('targetFile: $targetFile');
 
-      if (ext.indexOf('{{}}') != ext.lastIndexOf('{{}')) {
+      if (ext.indexOf('{{}}') != ext.lastIndexOf('{{}}')) {
         e('only support one catch group in "build_extensions" in config, exit');
         exit(1);
       }
 
-      final re = RegExp(ext.replaceFirst('{{}}', '(\\w*)'));
+      final re = RegExp(ext.replaceFirst('{{}}', r'([\w_\-/]*)'));
       // Get something like "^lib/{{}}.dart", check match our input "lib/zxc.dart"
       final allMatches = re.allMatches(targetFile.first).toList();
       if (allMatches.isEmpty) {
