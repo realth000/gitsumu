@@ -1,7 +1,7 @@
 name: gitsumu
-description: Dart package generates git info.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: Dart package provides code about compile environment (git info, flutter version ...).
+version: 0.0.1
+repository: https://github.com/realth000/gitsumu
 
 environment:
   sdk: ^3.1.5

@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:analyzer/dart/element/type.dart';
 import 'package:args/args.dart';
 import 'package:build_config/build_config.dart';
 import 'package:collection/collection.dart';
 import 'package:gitsumu/src/gitsumu.dart' as gitsumu;
 import 'package:gitsumu/src/info.dart';
 import 'package:path/path.dart' as path;
-import 'package:yaml/yaml.dart';
 
 late final ArgResults opts;
 
@@ -33,7 +31,6 @@ Future<void> main(List<String> arguments) async {
     exit(0);
   }
 
-  print(infoBuilder);
   final targetFile = infoBuilder.generateFor?.include;
   if (targetFile == null) {
     e('no include found, please add "generate_for" section to your config');
@@ -45,45 +42,43 @@ Future<void> main(List<String> arguments) async {
   }
   final buildExtension = infoBuilder.options['build_extensions'];
 
-  print(buildExtension.keys.first);
-
   // Actually we should do the same logic in lib/src/generate/expected_outputs.dart
   // But we do this in a lighter way which covers less conditions but still ok.
   String? outputPath;
-  for (final ext in buildExtension.keys) {
-    if (ext is! String) {
-      continue;
-    }
-    if (!ext.contains('{{}}')) {
-      // Plain text
-      if (ext == targetFile.first) {
-        outputPath = ext;
-        break;
+  if (buildExtension != null && buildExtension is Map<String, String>) {
+    for (final ext in buildExtension.keys) {
+      if (!ext.contains('{{}}')) {
+        // Plain text
+        if (ext == targetFile.first) {
+          outputPath = ext;
+          break;
+        }
+        continue;
       }
-      continue;
-    }
 
-    print('>>> target: $targetFile');
+      vp('targetFile: $targetFile');
 
-    if (ext.indexOf('{{}}') != ext.lastIndexOf('{{}')) {
-      e('only support one catch group in "build_extensions" in config, exit');
-      exit(1);
-    }
+      if (ext.indexOf('{{}}') != ext.lastIndexOf('{{}')) {
+        e('only support one catch group in "build_extensions" in config, exit');
+        exit(1);
+      }
 
-    final re = RegExp(ext.replaceFirst('{{}}', '(\\w*)'));
-    // Get something like "^lib/{{}}.dart", check match our input "lib/zxc.dart"
-    final allMatches = re.allMatches(targetFile.first).toList();
-    if (allMatches.isEmpty) {
-      // Not match our input, continue to next check.
-      continue;
+      final re = RegExp(ext.replaceFirst('{{}}', '(\\w*)'));
+      // Get something like "^lib/{{}}.dart", check match our input "lib/zxc.dart"
+      final allMatches = re.allMatches(targetFile.first).toList();
+      if (allMatches.isEmpty) {
+        // Not match our input, continue to next check.
+        continue;
+      }
+      outputPath =
+          buildExtension[ext]!.replaceFirst('{{}}', allMatches.first.group(1)!);
     }
-    outputPath =
-        buildExtension[ext].replaceFirst('{{}}', allMatches.first.group(1)!);
   }
 
+  // Fallback to default extension.
   outputPath ??= targetFile.first.replaceFirst('.dart', '.gitsumu.dart');
 
-  print('>>> outputFileName: $outputPath');
+  vp('outputPath: $outputPath');
 
   // await buildInfo(targetFile.first, outputPath);
 
@@ -104,10 +99,10 @@ Future<void> main(List<String> arguments) async {
 
   final gitRevisionShort = await gitsumu.getGitRevisionShort();
   if (gitRevisionShort == null) {
-    e('git revison short not found');
+    e('git revision short not found');
     exit(1);
   }
-  vp('git revisioin short: $gitRevisionShort');
+  vp('git revision short: $gitRevisionShort');
 
   final flutterInfo = await gitsumu.getFlutterVersion();
   if (flutterInfo == null) {
@@ -133,12 +128,13 @@ Future<void> main(List<String> arguments) async {
     dartVersion,
   );
 
-  vp('>>> output: $outputData');
+  vp('output: $outputData');
   final outputFile = File(outputPath);
-  if (!outputFile.existsSync()) {
-    await outputFile.create();
+  if (!outputFile.parent.existsSync()) {
+    await outputFile.parent.create(recursive: true);
   }
   await outputFile.writeAsString(outputData);
+  p('generate info success');
 }
 
 Future<BuildTarget?> loadConfig() async {
@@ -160,6 +156,7 @@ void p(Object? object) {
   print('gitsumu: $object');
 }
 
+/// Print error
 void e(Object? object) {
   print('gitsumu error: $object');
 }
