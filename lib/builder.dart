@@ -6,12 +6,6 @@ import 'package:source_gen/source_gen.dart';
 
 Builder infoBuilder(BuilderOptions options) {
   return InfoBuilder(options);
-  // return LibraryBuilder(
-  //   InfoGenerator(),
-  //   options: options,
-  //   generatedExtension: '.gitsumu.dart',
-  //   header: '// Generated at ${DateTime.now()}',
-  // );
 }
 
 class InfoBuilder implements Builder {
@@ -21,7 +15,6 @@ class InfoBuilder implements Builder {
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
-    print('>>> build ${buildStep.inputId}');
     final lib = await buildStep.resolver
         .libraryFor(buildStep.inputId, allowSyntaxErrors: false);
 

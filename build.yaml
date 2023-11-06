@@ -3,5 +3,5 @@ builders:
     import: "package:gitsumu/builder.dart"
     builder_factories: [ "infoBuilder" ]
     build_extensions: { ".dart": [ "info.gitsumu.part" ] }
-    auto_apply: dependents
+    auto_apply: root_package
     build_to: source
