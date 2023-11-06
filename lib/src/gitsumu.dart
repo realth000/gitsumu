@@ -47,7 +47,7 @@ class FlutterInfo {
 
   @override
   String toString() {
-    return 'FlutterInfo { version=$version channel=$channel }';
+    return 'FlutterInfo { version=$version channel=$channel revision=$frameworkRevision }';
   }
 }
 

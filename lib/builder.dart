@@ -28,7 +28,7 @@ class InfoBuilder implements Builder {
 
   @override
   Map<String, List<String>> get buildExtensions {
-    return validatedBuildExtensionsFrom(Map.of(builderOptions.config), {
+    return _validatedBuildExtensionsFrom(Map.of(builderOptions.config), {
       '.dart': ['.gitsumu.dart']
     });
   }
@@ -40,7 +40,7 @@ class InfoBuilder implements Builder {
 ///
 /// Modifies [optionsMap] by removing the `build_extensions` key from it, if
 /// present.
-Map<String, List<String>> validatedBuildExtensionsFrom(
+Map<String, List<String>> _validatedBuildExtensionsFrom(
   Map<String, dynamic>? optionsMap,
   Map<String, List<String>> defaultExtensions,
 ) {
