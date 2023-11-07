@@ -11,8 +11,8 @@ String formatInfo(
   String dartVersion,
 ) {
   // Copied from source_gen package function uriOfPartial().
-  final sourceFilePath = path.url.relative(inputPath,
-      from: path.url.dirname(outputPath));
+  final sourceFilePath =
+      path.url.relative(inputPath, from: path.url.dirname(outputPath));
 
   final data = '''
 part of '$sourceFilePath';
@@ -34,6 +34,7 @@ const gitCommitTimeDay       = '${gitCommitTimeInfo.day}';
 const gitCommitTimeHour      = '${gitCommitTimeInfo.hour}';
 const gitCommitTimeMinute    = '${gitCommitTimeInfo.minute}';
 const gitCommitTimeSecond    = '${gitCommitTimeInfo.second}';
+const gitCommitTimeYMDHMS  = '${gitCommitTimeInfo.year}-${gitCommitTimeInfo.month}-${gitCommitTimeInfo.day} ${gitCommitTimeInfo.hour}:${gitCommitTimeInfo.minute}:${gitCommitTimeInfo.second}';
 const gitCommitTimeTimezone  = '${gitCommitTimeInfo.timeZone}';
 const gitCommitRevisionLong  = '$revisionLong';
 const gitCommitRevisionShort = '$revisionShort';
