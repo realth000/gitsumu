@@ -4,9 +4,9 @@ Example usage package for gitsumu.
 
 ## Usage
 
-1. run `dart run gitsumu` or ```dart run build_runner build` in this example package folder.
+1. run `dart run gitsumu` or `dart run build_runner build` in this example package folder.
 
-2. run `dart run` will generate code like this:
+2. Will generate code like this:
    ```dart
    part of 'example.dart';
    

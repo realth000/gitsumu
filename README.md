@@ -14,30 +14,37 @@ Dart package provides code about compile environment (git info, flutter version 
 
 ## Features
 
-* Easier to use than `dart-define`: One command at compile time.
-* No platform specified scripts needed: Only need to do is running `dart run gitsumu` or `dart run build_runner build`.
-* Use info like const variables: All info generated are const variables.
-* Support both separate cli and `build_runner`: Recommend to separate cli to generate code.
+* Easier to use than `dart-define`: One command at compile time and no platform specified scripts.
+* Use info as const variables: All info generated are const variables.
+
+Of course this package supports both pure dart and flutter.
 
 ## Usage
 
+`dart run gitsumu` (recommended) or `dart run build_runner build`
+
 ### Basic
 
-* Full example is in the [example](example) folder.
+* Full example can be found in [example](example) folder.
 
-1. Add `gitsumu` and `build_runner` (optional) to `pubspec.yaml`.
+1. Add `gitsumu` to `pubspec.yaml`.
    ``` yaml
    dependencies:
      gitsumu: # current version
-   dev_dependencies:
-     build_runner: # current version or any version
    ```
-2. Create a source file to let `gitsumu` generate code, such as "lib/example.dart".
-   In that source file the only thing required is statement `part 'example.g.dart'`.
+   Add `build_runner` to `pubspec.yaml` as dev dependency only if you want to use with `build_runner`.
+   ``` yaml
+   dev_dependencies:
+     build_runner: # current version
+   ```
+   **Note that only `dart run gitsumu` support regeneration, you need to delete the existing generated file before
+   using with `build_runner`. See [restriction](#restriction)**
+2. Create a source file as an entry, for example `lib/utils/git_info.dart`.
+   In that source file the only line required is `part 'git_info.gitsumu.dart'`.
    Looks like this:
    ``` dart
-   // lib/example.dart
-   part 'example.git.dart';
+   // lib/utils/git_info.dart
+   part 'git_info.gitsumu.dart';
    ```
 3. Save the following config in `build.yaml` to let `gitsumu` know which file should generate for.
    ```yaml
@@ -46,14 +53,13 @@ Dart package provides code about compile environment (git info, flutter version 
        builders:
          gitsumu|info:
            generate_for:
-             - lib/example.dart
+             - lib/utils/git_info.dart
    ```
-4. Run `dart run gitsumu` (Recommended) or `dart run build_runner build` before build to generate "lib/example.g.dart".
-    * Note that only `dart run gitsumu` support regeneration, you need to delete the existing generated file before
-      using the later `build_runner` one.
+4. Run `dart run gitsumu` (Recommended) or `dart run build_runner build` before build to
+   generate `lib/utils/git_info.gitsumu.dart`.
 5. Will generate code like this:
    ```dart
-    part of 'example.dart';
+    part of 'git_info.dart';
     
     // Compile environment
     const flutterVersion         = '3.13.9';
@@ -77,9 +83,9 @@ Dart package provides code about compile environment (git info, flutter version 
     const gitCommitRevisionShort = '02d0d58';
     ```
 
-### Change generate dir
+### Change generate directory
 
-Similar to other packages. Add the following lines to `build.yaml` will change the generated file to `lib/generated`
+Similar to other packages. Add the following lines to `build.yaml` will change the generated file to `lib/generated/`
 folder:
 
 ```yaml
@@ -88,19 +94,28 @@ targets:
     builders:
       gitsumu|info:
         generate_for:
-          # Only generate for lib/example.dart => example.g.dart
-          - lib/example.dart
+          # Only generate for lib/utils/git_info.dart => git_info.gitsumu.dart
+          - lib/utils/gitsumu.dart
         # Uncomment the following options config if you want to generate
         # code into specified folder, such as "lib/generated".
-        # At the same time, you shall use "part of 'generated/xxx.g.dart' in your source file
-        # instead of current "part of 'xxx.g.dart'".
-        # Also, it is recommended to put "lib/generated" folder in .gitignore.
+        # At the same time, you shall use "part of 'generated/xxx.gitsumu.dart';" in your source file
+        # instead of current "part of 'xxx.gitsumu.dart'".
+        # Also, recommend to put "lib/generated/" folder in .gitignore.
         options:
           build_extensions:
             '^lib/{{}}.dart': 'lib/generated/{{}}.gitsumu.dart'
 ```
 
-### Debugging
+## Restriction
 
-Run `dart run gitsumu -v` to enable verbose log print.
+As said above, when using with `build_runner` like `dart run build_runner build`, the generated code will not update
+even environment updated (a new git commit, flutter version changed ...). This is because gitsumu only relies on
+environment, `build_runner` can not know whether we need a rebuild. **You need to delete the generated code before
+run `dart run build_runner build` again.**
 
+Though it's ok to use with `build_runner` in a clean
+environment (like CI/CD), it's highly recommend to use the separate cli `dart run gitsumu` .
+
+## Debugging
+
+Run `dart run gitsumu -v` to enable verbose log output.
