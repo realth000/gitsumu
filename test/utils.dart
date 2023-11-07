@@ -129,6 +129,7 @@ class TestRepo {
   }
 
   Future<void> _cleanUp(String path) async {
+    print('cleaning up $path');
     final rootDir = Directory(path);
     await rootDir.delete(recursive: true);
   }
