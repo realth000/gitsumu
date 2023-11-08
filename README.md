@@ -40,11 +40,11 @@ Of course this package supports both pure dart and flutter.
    **Note that only `dart run gitsumu` support regeneration, you need to delete the existing generated file before
    using with `build_runner`. See [restriction](#restriction)**
 2. Create a source file as an entry, for example `lib/utils/git_info.dart`.
-   In that source file the only line required is `part 'git_info.gitsumu.dart'`.
+   In that source file the only line required is `part 'git_info.g.dart'`.
    Looks like this:
    ``` dart
    // lib/utils/git_info.dart
-   part 'git_info.gitsumu.dart';
+   part 'git_info.g.dart';
    ```
 3. Save the following config in `build.yaml` to let `gitsumu` know which file should generate for.
    ```yaml
@@ -56,7 +56,7 @@ Of course this package supports both pure dart and flutter.
              - lib/utils/git_info.dart
    ```
 4. Run `dart run gitsumu` (Recommended) or `dart run build_runner build` before build to
-   generate `lib/utils/git_info.gitsumu.dart`.
+   generate `lib/utils/git_info.g.dart`.
 5. Will generate code like this:
    ```dart
     part of 'git_info.dart';
@@ -98,12 +98,12 @@ targets:
           - lib/utils/gitsumu.dart
         # Uncomment the following options config if you want to generate
         # code into specified folder, such as "lib/generated".
-        # At the same time, you shall use "part of 'generated/xxx.gitsumu.dart';" in your source file
-        # instead of current "part of 'xxx.gitsumu.dart'".
+        # At the same time, you shall use "part of 'generated/xxx.g.dart';" in your source file
+        # instead of current "part of 'xxx.g.dart'".
         # Also, recommend to put "lib/generated/" folder in .gitignore.
         options:
           build_extensions:
-            '^lib/{{}}.dart': 'lib/generated/{{}}.gitsumu.dart'
+            '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
 ```
 
 ## Restriction
