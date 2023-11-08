@@ -1,22 +1,13 @@
 import 'package:gitsumu/src/gitsumu.dart';
-import 'package:path/path.dart' as path;
 
 String formatInfo(
-  String inputPath,
-  String outputPath,
   String revisionShort,
   String revisionLong,
   FlutterInfo flutterInfo,
   GitCommitTimeInfo gitCommitTimeInfo,
   String dartVersion,
 ) {
-  // Copied from source_gen package function uriOfPartial().
-  final sourceFilePath =
-      path.url.relative(inputPath, from: path.url.dirname(outputPath));
-
   final data = '''
-part of '$sourceFilePath';
-
 // Compile environment
 const flutterVersion         = '${flutterInfo.version}';
 const flutterChannel         = '${flutterInfo.channel}';

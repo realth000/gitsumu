@@ -1,8 +1,8 @@
-part 'example.gitsumu.dart';
+part 'example.g.dart';
 
 // Use this "part" statement if generated file is specified to be in "lib/generated"
 // folder in build.yaml.
-// part 'generated/example.gitsumu.dart';
+// part 'generated/example.g.dart';
 
 void printInfo() {
   print('revision: $gitCommitRevisionShort ($gitCommitRevisionLong)');

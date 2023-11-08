@@ -119,15 +119,23 @@ Future<void> main(List<String> arguments) async {
   }
   vp('dart: $dartVersion');
 
-  final outputData = formatInfo(
-    targetFile.first,
-    outputPath,
+  final code = formatInfo(
     gitRevisionShort,
     gitRevisionLong,
     flutterInfo,
     gitCommitTimeInfo,
     dartVersion,
   );
+
+  // Copied from source_gen package function uriOfPartial().
+  final sourceFilePath =
+      path.url.relative(targetFile.first, from: path.url.dirname(outputPath));
+
+  final outputData = '''
+$sourceFilePath
+
+$code
+''';
 
   vp('output: $outputData');
   final outputFile = File(outputPath);

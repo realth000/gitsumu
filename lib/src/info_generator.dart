@@ -41,8 +41,6 @@ class InfoGenerator extends Generator {
     }
 
     return formatInfo(
-      buildStep.inputId.path,
-      buildStep.allowedOutputs.single.path,
       revisionShort,
       revisionLong,
       flutterInfo,
