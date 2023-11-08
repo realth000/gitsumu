@@ -41,7 +41,9 @@ Future<void> main(List<String> arguments) async {
     e('failed to generate: only support one file to generate info');
     exit(1);
   }
-  final buildExtension = infoBuilder.options['build_extensions'];
+
+  // When using SharedPartBuilder and combining_builder, we should looks for extensions in combining_builder's option.
+  final buildExtension = buildConfig.builders['source_gen:combining_builder']?.options['build_extensions'];
 
   // Actually we should do the same logic in lib/src/generate/expected_outputs.dart
   // But we do this in a lighter way which covers less conditions but still ok.
@@ -77,7 +79,7 @@ Future<void> main(List<String> arguments) async {
   }
 
   // Fallback to default extension.
-  outputPath ??= targetFile.first.replaceFirst('.dart', '.gitsumu.dart');
+  outputPath ??= targetFile.first.replaceFirst('.dart', '.g.dart');
 
   vp('outputPath: $outputPath');
 
@@ -132,7 +134,7 @@ Future<void> main(List<String> arguments) async {
       path.url.relative(targetFile.first, from: path.url.dirname(outputPath));
 
   final outputData = '''
-$sourceFilePath
+part of '$sourceFilePath';
 
 $code
 ''';
@@ -167,7 +169,7 @@ void p(Object? object) {
 
 /// Print error
 void e(Object? object) {
-  print('gitsumu error: $object');
+  stderr.write('gitsumu error: $object');
 }
 
 /// Verbose print
