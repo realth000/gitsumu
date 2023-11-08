@@ -113,8 +113,24 @@ class TestRepo {
     );
   }
 
+  /// Delete current project directory.
   Future<void> cleanUp() async {
     await _cleanUp(name);
+  }
+
+  /// Delete .dart_tool, generated code and built executable in current project.
+  Future<void> cleanCache() async {
+    final dartToolsDir = Directory('$name/.dart_tool');
+    if (dartToolsDir.existsSync()) {
+      await dartToolsDir.delete(recursive: true);
+    }
+
+    Directory(name)
+        .list(recursive: true)
+        .where((e) =>
+            e.statSync().type == FileSystemEntityType.file &&
+            (e.path.endsWith('.g.dart') || e.path.endsWith('.exe')))
+        .forEach((e) => e.deleteSync());
   }
 
   Future<void> _initGit(String name) async {
@@ -156,4 +172,3 @@ class TestRepo {
     return;
   }
 }
-
