@@ -86,5 +86,5 @@ void main(List<String> args) {
 
   test('cleaning up', () async {
     await repo.cleanUp();
-  }, skip: true);
+  }, skip: false);
 }
