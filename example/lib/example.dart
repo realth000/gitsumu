@@ -1,3 +1,5 @@
+import 'package:gitsumu/annotation.dart';
+
 part 'example.g.dart';
 
 // Use this "part" statement if generated file is specified to be in "lib/generated"
@@ -12,3 +14,6 @@ void printInfo() {
       'built with flutter: $flutterVersion $flutterChannel (framework=$flutterFrameworkRevision engine=$flutterEngineRevision)');
   print('built with dart: $dartVersion');
 }
+
+@customInfo
+const myCommand = ['echo', '123'];

@@ -1,8 +1,13 @@
 import 'dart:async';
 
 import 'package:build/build.dart';
+import 'package:gitsumu/src/custom_info_generator.dart';
 import 'package:gitsumu/src/info_generator.dart';
 import 'package:source_gen/source_gen.dart';
+
+Builder customInfoBuilder(BuilderOptions options) {
+  return SharedPartBuilder([CustomInfoGenerator(options)], 'custom_info');
+}
 
 Builder infoBuilder(BuilderOptions options) {
   return SharedPartBuilder([InfoGenerator(options)], "info");

@@ -10,37 +10,37 @@ import 'utils.dart';
 Future<void> generateInfo(String inputPath, String outputPath) async {
   final gitCommitTimeInfo = await gitsumu.getGitTime();
   if (gitCommitTimeInfo == null) {
-    e('git time not found');
+    ePrint('git time not found');
     exit(1);
   }
 
   final gitRevisionLong = await gitsumu.getGitRevisionLong();
   if (gitRevisionLong == null) {
-    e('git revision long not found');
+    ePrint('git revision long not found');
     exit(1);
   }
-  vp('git revision long: $gitRevisionLong');
+  verbosePrint('git revision long: $gitRevisionLong');
 
   final gitRevisionShort = await gitsumu.getGitRevisionShort();
   if (gitRevisionShort == null) {
-    e('git revision short not found');
+    ePrint('git revision short not found');
     exit(1);
   }
-  vp('git revision short: $gitRevisionShort');
+  verbosePrint('git revision short: $gitRevisionShort');
 
   final flutterInfo = await gitsumu.getFlutterVersion();
   if (flutterInfo == null) {
-    e('flutter info not found');
+    ePrint('flutter info not found');
     exit(1);
   }
-  vp('flutter: $flutterInfo');
+  verbosePrint('flutter: $flutterInfo');
 
   final dartVersion = await gitsumu.getDartVersion();
   if (dartVersion == null) {
-    e('dart info not found');
+    ePrint('dart info not found');
     exit(1);
   }
-  vp('dart: $dartVersion');
+  verbosePrint('dart: $dartVersion');
 
   final code = formatInfo(
     gitRevisionShort,
@@ -60,7 +60,7 @@ part of '$sourceFilePath';
 $code
 ''';
 
-  vp('output: $outputData');
+  verbosePrint('output: $outputData');
   final outputFile = File(outputPath);
   if (!outputFile.parent.existsSync()) {
     await outputFile.parent.create(recursive: true);

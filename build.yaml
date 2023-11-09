@@ -6,3 +6,10 @@ builders:
     auto_apply: root_package
     build_to: cache
     applies_builders: ["source_gen|combining_builder"]
+  custom_info:
+    import: "package:gitsumu/builder.dart"
+    builder_factories: [ "customInfoBuilder" ]
+    build_extensions: { ".dart": [ "custom_info.g.part" ] }
+    auto_apply: root_package
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]

@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:build_config/build_config.dart';
 import 'package:collection/collection.dart';
-import 'package:gitsumu/src/gitsumu.dart' as gitsumu;
-import 'package:gitsumu/src/info.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
+import 'custom_info.dart';
 import 'info.dart';
 import 'utils.dart';
 
@@ -18,28 +17,29 @@ Future<void> main(List<String> arguments) async {
 
   final buildConfig = await loadConfig();
   if (buildConfig == null) {
-    e('empty build config, exit');
+    ePrint('empty build config, exit');
     exit(1);
   }
 
   final infoBuilder = buildConfig.builders['gitsumu:info'];
   if (infoBuilder == null) {
-    vp('info builder not found, exit');
+    verbosePrint('info builder not found, exit');
     exit(1);
   }
 
   if (!infoBuilder.isEnabled) {
-    p('empty build config, skip');
+    print('empty build config, skip');
     exit(0);
   }
 
   final targetFile = infoBuilder.generateFor?.include;
   if (targetFile == null) {
-    e('no include found, please add "generate_for" section to your config');
+    ePrint(
+        'no include found, please add "generate_for" section to your config');
     exit(1);
   }
   if (targetFile.length != 1) {
-    e('failed to generate: only support one file to generate info');
+    ePrint('failed to generate: only support one file to generate info');
     exit(1);
   }
 
@@ -61,10 +61,11 @@ Future<void> main(List<String> arguments) async {
         continue;
       }
 
-      vp('targetFile: $targetFile');
+      verbosePrint('targetFile: $targetFile');
 
       if (ext.indexOf('{{}}') != ext.lastIndexOf('{{}}')) {
-        e('only support one catch group in "build_extensions" in config, exit');
+        ePrint(
+            'only support one catch group in "build_extensions" in config, exit');
         exit(1);
       }
 
@@ -83,15 +84,21 @@ Future<void> main(List<String> arguments) async {
   // Fallback to default extension.
   outputPath ??= targetFile.first.replaceFirst('.dart', '.g.dart');
 
-  vp('outputPath: $outputPath');
+  verbosePrint('outputPath: $outputPath');
 
   // await buildInfo(targetFile.first, outputPath);
 
-  p('generating info...');
+  print('generating info...');
 
   await generateInfo(targetFile.first, outputPath);
 
-  p('generate info success');
+  print('generate info success');
+
+  print('generating custom info...');
+
+  await generateCustomInfo(targetFile.first);
+
+  print('generate custom info success');
 }
 
 Future<BuildTarget?> loadConfig() async {
@@ -100,7 +107,8 @@ Future<BuildTarget?> loadConfig() async {
       .whereType<File>()
       .firstWhereOrNull((e) => path.basename(e.path) == 'build.yaml');
   if (configFile == null) {
-    e('config file not found. Please run this command in the same directory with "build.yaml" or configure "build.yaml" in this directory');
+    ePrint(
+        'config file not found. Please run this command in the same directory with "build.yaml" or configure "build.yaml" in this directory');
     exit(1);
   }
   final configMap =
