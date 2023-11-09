@@ -8,7 +8,8 @@ import 'package:gitsumu/src/info.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
 
-late final ArgResults opts;
+import 'info.dart';
+import 'utils.dart';
 
 Future<void> main(List<String> arguments) async {
   final parser = ArgParser();
@@ -43,7 +44,8 @@ Future<void> main(List<String> arguments) async {
   }
 
   // When using SharedPartBuilder and combining_builder, we should looks for extensions in combining_builder's option.
-  final buildExtension = buildConfig.builders['source_gen:combining_builder']?.options['build_extensions'];
+  final buildExtension = buildConfig
+      .builders['source_gen:combining_builder']?.options['build_extensions'];
 
   // Actually we should do the same logic in lib/src/generate/expected_outputs.dart
   // But we do this in a lighter way which covers less conditions but still ok.
@@ -87,64 +89,8 @@ Future<void> main(List<String> arguments) async {
 
   p('generating info...');
 
-  final gitCommitTimeInfo = await gitsumu.getGitTime();
-  if (gitCommitTimeInfo == null) {
-    e('git time not found');
-    exit(1);
-  }
+  await generateInfo(targetFile.first, outputPath);
 
-  final gitRevisionLong = await gitsumu.getGitRevisionLong();
-  if (gitRevisionLong == null) {
-    e('git revision long not found');
-    exit(1);
-  }
-  vp('git revision long: $gitRevisionLong');
-
-  final gitRevisionShort = await gitsumu.getGitRevisionShort();
-  if (gitRevisionShort == null) {
-    e('git revision short not found');
-    exit(1);
-  }
-  vp('git revision short: $gitRevisionShort');
-
-  final flutterInfo = await gitsumu.getFlutterVersion();
-  if (flutterInfo == null) {
-    e('flutter info not found');
-    exit(1);
-  }
-  vp('flutter: $flutterInfo');
-
-  final dartVersion = await gitsumu.getDartVersion();
-  if (dartVersion == null) {
-    e('dart info not found');
-    exit(1);
-  }
-  vp('dart: $dartVersion');
-
-  final code = formatInfo(
-    gitRevisionShort,
-    gitRevisionLong,
-    flutterInfo,
-    gitCommitTimeInfo,
-    dartVersion,
-  );
-
-  // Copied from source_gen package function uriOfPartial().
-  final sourceFilePath =
-      path.url.relative(targetFile.first, from: path.url.dirname(outputPath));
-
-  final outputData = '''
-part of '$sourceFilePath';
-
-$code
-''';
-
-  vp('output: $outputData');
-  final outputFile = File(outputPath);
-  if (!outputFile.parent.existsSync()) {
-    await outputFile.parent.create(recursive: true);
-  }
-  await outputFile.writeAsString(outputData);
   p('generate info success');
 }
 
@@ -160,21 +106,4 @@ Future<BuildTarget?> loadConfig() async {
   final configMap =
       BuildConfig.parse('gitsumu', [], await configFile.readAsString());
   return configMap.buildTargets['gitsumu:gitsumu'];
-}
-
-/// Print
-void p(Object? object) {
-  print('gitsumu: $object');
-}
-
-/// Print error
-void e(Object? object) {
-  stderr.write('gitsumu error: $object');
-}
-
-/// Verbose print
-void vp(Object? object) {
-  if (opts['verbose']) {
-    p(object);
-  }
 }
