@@ -21,19 +21,59 @@ targets:
 ''';
 
 const code = '''
+import 'package:gitsumu/annotation.dart';
+
 part "example.g.dart";
 
 void main(List<String> args) {
-  print(gitCommitRevisionLong);
+  switch (args.first) {
+    case 'gitRevisionLong':
+      print(gitCommitRevisionLong);
+    case 'customInfo':
+      print(myCommandResult);
+    case 'customInfo2':
+      print(myCommandResult2);
+    case 'customFromStderr':
+      print(myCommandFromStderr);
+  }
 }
+
+@CustomInfo('myCommandResult')
+const aNotImportantName = ['dart', '--help'];
+
+@CustomInfo('myCommandResult2', ignoreStderr: true)
+const alsoNotImportantName = ['git', 'checkout', '123456789'];
+
+@CustomInfo('myCommandFromStderr', useStderr: true)
+const alsoNotImportantName2 = ['git', 'abc'];
 ''';
 
 const codeWithExt = '''
+import 'package:gitsumu/annotation.dart';
+
 part "../generated/utils/git_info.g.dart";
 
 void main(List<String> args) {
-  print(gitCommitRevisionLong);
+  switch (args.first) {
+    case 'gitRevisionLong':
+      print(gitCommitRevisionLong);
+    case 'customInfo':
+      print(myCommandResult);
+    case 'customInfo2':
+      print(myCommandResult2);
+    case 'customFromStderr':
+      print(myCommandFromStderr);
+  }
 }
+
+@CustomInfo('myCommandResult')
+const aNotImportantName = ['dart', '--help'];
+
+@CustomInfo('myCommandResult2', ignoreStderr: true)
+const alsoNotImportantName = ['git', 'checkout', '123456789'];
+
+@CustomInfo('myCommandFromStderr', useStderr: true)
+const alsoNotImportantName2 = ['git', 'abc'];
 ''';
 
 const gitRef = '.git/refs/heads/master';

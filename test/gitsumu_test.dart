@@ -31,7 +31,7 @@ Future<void> main() async {
         reason: 'this executable should built successfully');
 
     final commitHash = await File('$repoName/$gitRef').readAsString();
-    final out1 = await Process.run('$repoName/$exePath', []);
+    final out1 = await Process.run('$repoName/$exePath', ['gitRevisionLong']);
     expect(commitHash, out1.stdout as String,
         reason: 'expected to have the latest git commit revision hash');
 
@@ -60,7 +60,8 @@ Future<void> main() async {
         reason: 'this executable should built successfully');
 
     final commitHash = await File('$repoName/$gitRef').readAsString();
-    final out1 = await Process.run('$repoName/$utilExePath', []);
+    final out1 =
+        await Process.run('$repoName/$utilExePath', ['gitRevisionLong']);
     expect(commitHash, out1.stdout as String,
         reason: 'expected to have the latest git commit revision hash');
 
@@ -97,7 +98,7 @@ Future<void> main() async {
           reason: 'this executable should built successfully');
 
       final commitHash = await File('$repoName/$gitRef').readAsString();
-      final out1 = await Process.run('$repoName/$exePath', []);
+      final out1 = await Process.run('$repoName/$exePath', ['gitRevisionLong']);
       expect(commitHash, out1.stdout as String,
           reason: 'expected to have the latest git commit revision hash');
 
@@ -135,7 +136,8 @@ Future<void> main() async {
           reason: 'this executable should built successfully');
 
       final commitHash = await File('$repoName/$gitRef').readAsString();
-      final out1 = await Process.run('$repoName/$utilExePath', []);
+      final out1 =
+          await Process.run('$repoName/$utilExePath', ['gitRevisionLong']);
       expect(commitHash, out1.stdout as String,
           reason: 'expected to have the latest git commit revision hash');
 
