@@ -35,6 +35,14 @@ Future<void> main() async {
     expect(commitHash, out1.stdout as String,
         reason: 'expected to have the latest git commit revision hash');
 
+    // Custom info
+    final out2 = await Process.run('$repoName/$exePath', ['customInfo']);
+    expect((out2.stdout as String).trim().isNotEmpty, true);
+    final out3 = await Process.run('$repoName/$exePath', ['customInfo2']);
+    expect((out3.stdout as String), equals('\n'));
+    final out4 = await Process.run('$repoName/$exePath', ['customFromStderr']);
+    expect((out4.stdout as String).trim().isNotEmpty, true);
+
     print('passed');
   });
 
@@ -64,6 +72,14 @@ Future<void> main() async {
         await Process.run('$repoName/$utilExePath', ['gitRevisionLong']);
     expect(commitHash, out1.stdout as String,
         reason: 'expected to have the latest git commit revision hash');
+
+    // Custom info
+    final out2 = await Process.run('$repoName/$exePath', ['customInfo']);
+    expect((out2.stdout as String).trim().isNotEmpty, true);
+    final out3 = await Process.run('$repoName/$exePath', ['customInfo2']);
+    expect((out3.stdout as String), equals('\n'));
+    final out4 = await Process.run('$repoName/$exePath', ['customFromStderr']);
+    expect((out4.stdout as String).trim().isNotEmpty, true);
 
     print('passed');
   });
