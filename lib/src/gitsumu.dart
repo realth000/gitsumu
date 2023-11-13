@@ -51,13 +51,13 @@ class FlutterInfo {
   }
 }
 
-Future<(String, String)> _runCommand(String command, List<String> args) async {
+Future<(String, String)> runCommand(String command, List<String> args) async {
   final commandResult = await Process.run(command, args);
   return (commandResult.stdout as String, commandResult.stderr as String);
 }
 
 Future<String?> getGitRevisionLong() async {
-  final (out, err) = await _runCommand('git', [
+  final (out, err) = await runCommand('git', [
     '--no-pager',
     'show',
     '--oneline',
@@ -74,7 +74,7 @@ Future<String?> getGitRevisionLong() async {
 }
 
 Future<String?> getGitRevisionShort() async {
-  final (out, err) = await _runCommand('git', [
+  final (out, err) = await runCommand('git', [
     '--no-pager',
     'show',
     '--oneline',
@@ -91,7 +91,7 @@ Future<String?> getGitRevisionShort() async {
 }
 
 Future<GitCommitTimeInfo?> getGitTime() async {
-  final (out, err) = await _runCommand('git', [
+  final (out, err) = await runCommand('git', [
     '--no-pager',
     'show',
     '--oneline',
@@ -124,7 +124,7 @@ Future<GitCommitTimeInfo?> getGitTime() async {
 }
 
 Future<FlutterInfo?> getFlutterVersion() async {
-  final (out, err) = await _runCommand('flutter', ['--version']);
+  final (out, err) = await runCommand('flutter', ['--version']);
   if (err.isNotEmpty) {
     return null;
   }
@@ -182,7 +182,7 @@ Future<FlutterInfo?> getFlutterVersion() async {
 }
 
 Future<String?> getDartVersion() async {
-  final (out, err) = await _runCommand('dart', ['--version']);
+  final (out, err) = await runCommand('dart', ['--version']);
   if (err.isNotEmpty) {
     return null;
   }

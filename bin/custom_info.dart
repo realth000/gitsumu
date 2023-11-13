@@ -6,6 +6,7 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:collection/collection.dart';
+import 'package:gitsumu/src/gitsumu.dart' as gitsumu;
 import 'package:path/path.dart' as path;
 
 import 'utils.dart';
@@ -33,10 +34,56 @@ Future<void> generateCustomInfo(String inputPath) async {
   }
   final element = resolvedUnit.unit;
   for (final d in element.declarations) {
+    // Only support parsing commands from top level variables.
     if (d is! TopLevelVariableDeclaration) {
       continue;
     }
-    print('${d} ${d.metadata}');
+
+    // Find annotation.
+    final annotation =
+        d.metadata.firstWhereOrNull((e) => e.name.name == 'customInfo');
+    if (annotation == null) {
+      continue;
+    }
+
+    // Currently only find the very first variable.
+    final variable = d.variables.variables.firstOrNull;
+    if (variable == null) {
+      continue;
+    }
+
+    verbosePrint('get variable: $variable');
+
+    // Variable type should be list of string.
+    final variableType =
+        variable.declaredElement?.type.getDisplayString(withNullability: true);
+    if (variableType != 'List<String>') {
+      ePrint(
+        'only support declaring custom commands using List<String>, got $variableType',
+      );
+      exit(1);
+    }
+
+    // Check initializer, likely this will not be null, but still check it to
+    // make compiler happy.
+    if (variable.initializer == null) {
+      ePrint('failed to get initializer for command $d');
+      exit(1);
+    }
+
+    // Here we get command and all arguments for it in a list.
+    // The first element in list is command, and other elements are arguments,
+    // may exist or not.
+    final commandAndArgs = variable.initializer!.childEntities
+        .whereType<StringLiteral>()
+        .map((e) => e.stringValue!)
+        .toList();
+
+    verbosePrint('get command and args: $commandAndArgs');
+
+    final command = commandAndArgs.removeAt(0);
+
+    final (out, err) = await gitsumu.runCommand(command, commandAndArgs);
   }
 }
 
