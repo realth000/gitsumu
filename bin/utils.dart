@@ -12,7 +12,7 @@ void print(core.Object? object) {
 
 /// Print error
 void ePrint(core.Object? object) {
-  stderr.write('gitsumu error: $object');
+  stderr.write('gitsumu error: $object\n');
 }
 
 /// Verbose print
