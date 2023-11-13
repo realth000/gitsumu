@@ -15,5 +15,11 @@ void printInfo() {
   print('built with dart: $dartVersion');
 }
 
-@customInfo
-const myCommand = ['echo', '123'];
+@CustomInfo('myCommandResult')
+const aNotImportantName = ['dart', '--help'];
+
+@CustomInfo('myCommandResult2', ignoreStderr: true)
+const alsoNotImportantName = ['git', 'checkout', '123456789'];
+
+@CustomInfo('myCommandFromStderr', useStderr: true)
+const alsoNotImportantName2 = ['git', 'abc'];

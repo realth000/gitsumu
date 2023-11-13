@@ -6,13 +6,14 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:collection/collection.dart';
+import 'package:gitsumu/annotation.dart';
 import 'package:gitsumu/src/gitsumu.dart' as gitsumu;
 import 'package:path/path.dart' as path;
 
 import 'utils.dart';
 
 // https://stackoverflow.com/questions/53111056/dart-analyzer-sources-needing-processing
-Future<void> generateCustomInfo(String inputPath) async {
+Future<void> generateCustomInfo(String inputPath, String outputPath) async {
   final projectRootDir = _getCurrentProjectRootDirectory();
   if (projectRootDir == null) {
     ePrint('failed to find root directory of current project\n'
@@ -32,6 +33,9 @@ Future<void> generateCustomInfo(String inputPath) async {
   if (resolvedUnit is! ResolvedUnitResult) {
     throw Exception('failed to parse $filePath: ${resolvedUnit.runtimeType}');
   }
+
+  final resultList = <String>[];
+
   final element = resolvedUnit.unit;
   for (final d in element.declarations) {
     // Only support parsing commands from top level variables.
@@ -40,11 +44,15 @@ Future<void> generateCustomInfo(String inputPath) async {
     }
 
     // Find annotation.
-    final annotation =
-        d.metadata.firstWhereOrNull((e) => e.name.name == 'customInfo');
+    final annotation = d.metadata
+        .firstWhereOrNull((e) => e.name.name == 'CustomInfo')
+        ?.parseToCustomInfo();
     if (annotation == null) {
+      ePrint('failed to parse for $d');
       continue;
     }
+
+    verbosePrint('annotation: $annotation');
 
     // Currently only find the very first variable.
     final variable = d.variables.variables.firstOrNull;
@@ -52,7 +60,7 @@ Future<void> generateCustomInfo(String inputPath) async {
       continue;
     }
 
-    verbosePrint('get variable: $variable');
+    verbosePrint('variable: $variable');
 
     // Variable type should be list of string.
     final variableType =
@@ -79,12 +87,27 @@ Future<void> generateCustomInfo(String inputPath) async {
         .map((e) => e.stringValue!)
         .toList();
 
-    verbosePrint('get command and args: $commandAndArgs');
+    verbosePrint('run command: $commandAndArgs');
 
     final command = commandAndArgs.removeAt(0);
 
     final (out, err) = await gitsumu.runCommand(command, commandAndArgs);
+    if (err.isNotEmpty && !annotation.ignoreStderr && !annotation.useStderr) {
+      ePrint('error running command "$command $commandAndArgs": $err');
+      exit(1);
+    }
+
+    final commandResult = annotation.useStderr ? err.trim() : out.trim();
+    // Use ''' to allow multiple lines.
+    resultList.add("const ${annotation.name} = '''$commandResult''';");
   }
+
+  final outputData = '''
+// Custom info
+${resultList.join('\n')}
+''';
+  final outputFile = File(outputPath);
+  outputFile.writeAsString(outputData, mode: FileMode.append);
 }
 
 String? _getCurrentProjectRootDirectory() {
@@ -101,4 +124,35 @@ String? _getCurrentProjectRootDirectory() {
     count = count - 1;
   }
   return null;
+}
+
+extension ParseCustomInfo on Annotation {
+  CustomInfo? parseToCustomInfo() {
+    String? name;
+    bool ignoreStderr = false;
+    bool useStderr = false;
+
+    for (final arg in arguments!.arguments) {
+      // Name only.
+      if (arg is SimpleStringLiteral) {
+        name = arg.value;
+      }
+
+      // Key value pair for named arguments.
+      // These types are checked by compiler, just convert and use them.
+      if (arg is NamedExpression) {
+        switch (arg.name.label.toString()) {
+          case 'ignoreStderr':
+            ignoreStderr = (arg.expression as BooleanLiteral).value;
+          case 'useStderr':
+            useStderr = (arg.expression as BooleanLiteral).value;
+        }
+      }
+    }
+
+    if (name == null) {
+      return null;
+    }
+    return CustomInfo(name, ignoreStderr: ignoreStderr, useStderr: useStderr);
+  }
 }

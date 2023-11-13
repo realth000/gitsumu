@@ -96,7 +96,7 @@ Future<void> main(List<String> arguments) async {
 
   print('generating custom info...');
 
-  await generateCustomInfo(targetFile.first);
+  await generateCustomInfo(targetFile.first, outputPath);
 
   print('generate custom info success');
 }
