@@ -79,6 +79,7 @@ class TestRepo {
       'git',
       ['add', '.'],
       path: name,
+      supressErr: true,
     );
 
     await _runCommandInDir(
@@ -142,6 +143,13 @@ class TestRepo {
       path: name,
       supressErr: true,
     );
+
+    // Disable gpg signing for test.
+    await _runCommandInDir(
+      'git',
+      ['config', 'commit.gpgsign', 'false'],
+      path: name,
+    );
   }
 
   Future<void> _cleanUp(String path) async {
@@ -161,7 +169,7 @@ class TestRepo {
     final err = result.stderr as String;
 
     if (!supressErr && err.isNotEmpty) {
-      throw Exception('failed to init git repo: $err');
+      throw Exception('failed to run command $command $args: $err');
     }
 
     final out = result.stdout as String;

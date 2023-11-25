@@ -52,8 +52,9 @@ class FlutterInfo {
 }
 
 Future<(String, String)> runCommand(String command, List<String> args) async {
-  final commandResult = await Process.run(command, args);
-  return (commandResult.stdout as String, commandResult.stderr as String);
+  final commandResult = await Process.run(command, args, runInShell: true);
+  final cleanedOutput = (commandResult.stdout as String).replaceAll('\r', '');
+  return (cleanedOutput, commandResult.stderr as String);
 }
 
 Future<String?> getGitRevisionLong() async {
@@ -135,27 +136,30 @@ Future<FlutterInfo?> getFlutterVersion() async {
     return null;
   }
 
-  final re0 =
-      RegExp(r'^Flutter (?<version>[0-9.]+).* channel (?<channel>\w+) .*');
-  final re0Match = re0.firstMatch(infoStringList[0]);
-  final version = re0Match?.namedGroup('version');
-  final channel = re0Match?.namedGroup('channel');
+  // Separate regexp into ASCII pieces to avoid encoding error on Windows.
+  final re00 = RegExp(r'^Flutter (?<version>[0-9.]+).*');
+  final version = re00.firstMatch(infoStringList[0])?.namedGroup('version');
+  final re01 = RegExp(r'channel (?<channel>\w+) .*');
+  final channel = re01.firstMatch(infoStringList[0])?.namedGroup('channel');
 
-  final re1 = RegExp(
-      r'Framework.* revision (?<frameworkRevision>\w+) .* (?<frameworkTimestamp>[^ ]+ [^ ]+ [^ ]+)$');
-  final re1Match = re1.firstMatch(infoStringList[1]);
-  final frameworkRevision = re1Match?.namedGroup('frameworkRevision');
-  final frameworkTimestamp = re1Match?.namedGroup('frameworkTimestamp');
+  final re11 = RegExp(r'revision (?<frameworkRevision>\w+) .*');
+  final frameworkRevision =
+      re11.firstMatch(infoStringList[1])?.namedGroup('frameworkRevision');
+  final re12 =
+      RegExp(r'(?<frameworkTimestamp>\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.*)$');
+  final frameworkTimestamp =
+      re12.firstMatch(infoStringList[1])?.namedGroup('frameworkTimestamp');
 
-  final re2 = RegExp(r'Engine.* revision (?<revision>\w+)');
+  final re2 = RegExp(r'revision (?<revision>\w+)');
   final re2Match = re2.firstMatch(infoStringList[2]);
   final engineRevision = re2Match?.namedGroup('revision');
 
-  final re3 = RegExp(
-      r'Tools.* Dart (?<dartVersion>[0-9.]+).* DevTools (?<devToolsVersion>[0-9.]+)');
-  final re3Match = re3.firstMatch(infoStringList[3]);
-  final dartVersion = re3Match?.namedGroup('dartVersion');
-  final devToolsVersion = re3Match?.namedGroup('devToolsVersion');
+  final re31 = RegExp(r'Dart (?<dartVersion>[0-9.]+).* ');
+  final dartVersion =
+      re31.firstMatch(infoStringList[3])?.namedGroup('dartVersion');
+  final re32 = RegExp(r'DevTools (?<devToolsVersion>[0-9.]+)');
+  final devToolsVersion =
+      re32.firstMatch(infoStringList[3])?.namedGroup('devToolsVersion');
 
   if (version == null ||
       channel == null ||

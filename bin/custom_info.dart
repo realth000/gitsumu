@@ -21,7 +21,10 @@ Future<void> generateCustomInfo(String inputPath, String outputPath) async {
     exit(1);
   }
 
-  final filePath = '$projectRootDir/$inputPath';
+  String filePath = '$projectRootDir/$inputPath';
+  if (Platform.isWindows) {
+    filePath = filePath.replaceAll('/', '\\');
+  }
 
   final collection = AnalysisContextCollection(
     includedPaths: [filePath],

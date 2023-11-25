@@ -32,14 +32,14 @@ Future<void> main() async {
 
     final commitHash = await File('$repoName/$gitRef').readAsString();
     final out1 = await Process.run('$repoName/$exePath', ['gitRevisionLong']);
-    expect(commitHash, out1.stdout as String,
+    expect(commitHash, (out1.stdout as String).replaceAll('\r', ''),
         reason: 'expected to have the latest git commit revision hash');
 
     // Custom info
     final out2 = await Process.run('$repoName/$exePath', ['customInfo']);
     expect((out2.stdout as String).trim().isNotEmpty, true);
     final out3 = await Process.run('$repoName/$exePath', ['customInfo2']);
-    expect((out3.stdout as String), equals('\n'));
+    expect((out3.stdout as String).replaceAll('\r', ''), equals('\n'));
     final out4 = await Process.run('$repoName/$exePath', ['customFromStderr']);
     expect((out4.stdout as String).trim().isNotEmpty, true);
 
@@ -70,14 +70,14 @@ Future<void> main() async {
     final commitHash = await File('$repoName/$gitRef').readAsString();
     final out1 =
         await Process.run('$repoName/$utilExePath', ['gitRevisionLong']);
-    expect(commitHash, out1.stdout as String,
+    expect(commitHash, (out1.stdout as String).replaceAll('\r', ''),
         reason: 'expected to have the latest git commit revision hash');
 
     // Custom info
     final out2 = await Process.run('$repoName/$exePath', ['customInfo']);
     expect((out2.stdout as String).trim().isNotEmpty, true);
     final out3 = await Process.run('$repoName/$exePath', ['customInfo2']);
-    expect((out3.stdout as String), equals('\n'));
+    expect((out3.stdout as String).replaceAll('\r', ''), equals('\n'));
     final out4 = await Process.run('$repoName/$exePath', ['customFromStderr']);
     expect((out4.stdout as String).trim().isNotEmpty, true);
 
@@ -115,7 +115,7 @@ Future<void> main() async {
 
       final commitHash = await File('$repoName/$gitRef').readAsString();
       final out1 = await Process.run('$repoName/$exePath', ['gitRevisionLong']);
-      expect(commitHash, out1.stdout as String,
+      expect(commitHash, (out1.stdout as String).replaceAll('\r', ''),
           reason: 'expected to have the latest git commit revision hash');
 
       print('passed');
@@ -154,7 +154,7 @@ Future<void> main() async {
       final commitHash = await File('$repoName/$gitRef').readAsString();
       final out1 =
           await Process.run('$repoName/$utilExePath', ['gitRevisionLong']);
-      expect(commitHash, out1.stdout as String,
+      expect(commitHash, (out1.stdout as String).replaceAll('\r', ''),
           reason: 'expected to have the latest git commit revision hash');
 
       print('passed');
@@ -166,5 +166,5 @@ Future<void> main() async {
   // It's ok to skip this step when debugging failed tests.
   test('cleaning up', () async {
     await repo.cleanUp();
-  }, skip: false);
+  }, skip: true);
 }
