@@ -2,7 +2,7 @@
 
 Dart package provides code about compile environment (git info, flutter version ...).
 
-## Introduce
+## Introduction
 
 `gitsumu` provides the following info so that apps can use in code.
 
@@ -10,7 +10,7 @@ Dart package provides code about compile environment (git info, flutter version 
 * [x] Git commit revision.
 * [x] Flutter version.
 * [x] Dart version.
-* [x] App info in pubspec.yaml.
+* [x] App info in `pubspec.yaml`.
 * [ ] Custom command.
 
 ```dart
@@ -55,7 +55,7 @@ Of course this package supports both pure dart and flutter.
 
 ### Basic
 
-* Full example can be found in [example](example) folder.
+Full example can be found in [example](example) folder.
 
 1. Add `gitsumu` to `pubspec.yaml`.
    ``` yaml
@@ -68,9 +68,9 @@ Of course this package supports both pure dart and flutter.
      build_runner: # current version
    ```
    **Note that only `dart run gitsumu` support regeneration, you need to delete the existing generated file before
-   using with `build_runner`. See [restriction](#restriction)**
-2. Create a source file as an entry, for example `lib/utils/git_info.dart`.
-   In that source file the only line required is `part 'git_info.g.dart'`.
+   using with `build_runner`. See [restrictions](#restrictions) for details.**
+2. Create a source file as an entry, for example `lib/utils/git_info.dart`.<br>
+   In that source file the only line required is `part 'git_info.g.dart'`.<br>
    Looks like this:
    ``` dart
    // lib/utils/git_info.dart
@@ -89,29 +89,35 @@ Of course this package supports both pure dart and flutter.
    generate `lib/utils/git_info.g.dart`.
 5. Will generate code like this:
    ```dart
-    part of 'git_info.dart';
-    
-    // Compile environment
-    const flutterVersion         = '3.13.9';
-    const flutterChannel         = 'stable';
-    const flutterFrameworkRevision  = 'd211f42860';
-    const flutterFrameworkTimestamp = '2023-10-25 13:42:25 -0700';
-    const flutterEngineRevision  = '0545f8705d';
-    const flutterDartVersion     = '3.1.5';
-    const flutterDevToolsVersion = '2.25.0';
-    const dartVersion            = '3.1.5 (stable)';
-    
-    // Repo info
-    const gitCommitTimeYear      = '2023';
-    const gitCommitTimeMonth     = '11';
-    const gitCommitTimeDay       = '06';
-    const gitCommitTimeHour      = '17';
-    const gitCommitTimeMinute    = '33';
-    const gitCommitTimeSecond    = '50';
-    const gitCommitTimeTimezone  = '+0800';
-    const gitCommitRevisionLong  = '02d0d5803555eaac40730d0c8a0fe95f6f5f18d1';
-    const gitCommitRevisionShort = '02d0d58';
-    ```
+   part of 'example.dart';
+   
+   // Compile environment
+   const flutterVersion         = '3.16.0';
+   const flutterChannel         = 'stable';
+   const flutterFrameworkRevision  = 'db7ef5bf9f';
+   const flutterFrameworkTimestamp = '2023-11-15 11:25:44 -0800';
+   const flutterEngineRevision  = '74d16627b9';
+   const flutterDartVersion     = '3.2.0';
+   const flutterDevToolsVersion = '2.28.2';
+   const dartVersion            = '3.2.0 (stable)';
+   
+   // Repo info
+   const gitCommitTimeYear      = '2023';
+   const gitCommitTimeMonth     = '11';
+   const gitCommitTimeDay       = '26';
+   const gitCommitTimeHour      = '04';
+   const gitCommitTimeMinute    = '07';
+   const gitCommitTimeSecond    = '12';
+   const gitCommitTimeYMDHMS  = '2023-11-26 04:07:12';
+   const gitCommitTimeTimezone  = '+0800';
+   const gitCommitRevisionLong  = '927a949985f131e27f401287e7915b832f24b301';
+   const gitCommitRevisionShort = '927a949';
+   
+   // App info
+   const appName        = 'example';
+   const appDescription = 'A sample command-line application.';
+   const appVersion     = '1.0.0';
+   ```
 
 ### Change generate directory
 
@@ -124,8 +130,8 @@ targets:
     builders:
       gitsumu|info:
         generate_for:
-          # Only generate for lib/utils/git_info.dart => git_info.gitsumu.dart
-          - lib/utils/gitsumu.dart
+          # Only generate for lib/utils/git_info.dart => git_info.g.dart
+          - lib/utils/git_info.dart
         # Uncomment the following options config if you want to generate
         # code into specified folder, such as "lib/generated".
         # At the same time, you shall use "part of 'generated/xxx.g.dart';" in your source file
@@ -136,15 +142,15 @@ targets:
             '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
 ```
 
-## Restriction
+## Restrictions
 
 As said above, when using with `build_runner` like `dart run build_runner build`, the generated code will not update
 even environment updated (a new git commit, flutter version changed ...). This is because gitsumu only relies on
-environment, `build_runner` can not know whether we need a rebuild. **You need to delete the generated code before
+environment, `build_runner` does not know whether we need a rebuild. **Manually delete the generated code before
 run `dart run build_runner build` again.**
 
-Though it's ok to use with `build_runner` in a clean
-environment (like CI/CD), it's highly recommend to use the separate cli `dart run gitsumu` .
+Although it's ok to use with `build_runner` in a clean
+environment (like CI/CD), using the separate cli `dart run gitsumu` is better in development.
 
 ## Debugging
 
