@@ -13,14 +13,19 @@ const dartVersion            = '3.2.0 (stable)';
 // Repo info
 const gitCommitTimeYear      = '2023';
 const gitCommitTimeMonth     = '11';
-const gitCommitTimeDay       = '13';
-const gitCommitTimeHour      = '17';
-const gitCommitTimeMinute    = '36';
-const gitCommitTimeSecond    = '29';
-const gitCommitTimeYMDHMS  = '2023-11-13 17:36:29';
+const gitCommitTimeDay       = '26';
+const gitCommitTimeHour      = '04';
+const gitCommitTimeMinute    = '07';
+const gitCommitTimeSecond    = '12';
+const gitCommitTimeYMDHMS  = '2023-11-26 04:07:12';
 const gitCommitTimeTimezone  = '+0800';
-const gitCommitRevisionLong  = 'eec78e9a88d93876a41c5a9bf4368cadcc8ccca8';
-const gitCommitRevisionShort = 'eec78e9';
+const gitCommitRevisionLong  = '927a949985f131e27f401287e7915b832f24b301';
+const gitCommitRevisionShort = '927a949';
+
+// App info
+const appName        = 'example';
+const appDescription = 'A sample command-line application.';
+const appVersion     = '1.0.0';
 
 // Custom info
 const myCommandResult = '''A command-line utility for Dart development.
@@ -51,6 +56,7 @@ Available commands:
 Run "dart help <command>" for more information about a command.
 See https://dart.dev/tools/dart-tool for detailed documentation.''';
 const myCommandResult2 = '''''';
-const myCommandFromStderr = '''git锛?abc' 涓嶆槸涓€涓?git 鍛戒护銆傚弬瑙?'git --help'銆?
-鏈€鐩镐技鐨勫懡浠ゆ槸
+const myCommandFromStderr = '''git：'abc' 不是一个 git 命令。参见 'git --help'。
+
+最相似的命令是
 	add''';

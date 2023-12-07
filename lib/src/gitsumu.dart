@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
+import 'package:path/path.dart' as path;
+
 class GitCommitTimeInfo {
   const GitCommitTimeInfo({
     required this.year,
@@ -49,6 +52,18 @@ class FlutterInfo {
   String toString() {
     return 'FlutterInfo { version=$version channel=$channel revision=$frameworkRevision }';
   }
+}
+
+class AppInfo {
+  const AppInfo({
+    required this.name,
+    required this.description,
+    required this.version,
+  });
+
+  final String name;
+  final String description;
+  final String version;
 }
 
 Future<(String, String)> runCommand(String command, List<String> args) async {
@@ -195,4 +210,39 @@ Future<String?> getDartVersion() async {
   final reMatch = re.firstMatch(out.trim());
   final versionString = reMatch?.namedGroup('version');
   return versionString;
+}
+
+Future<AppInfo?> getAppInfo() async {
+  final configFile = Directory.current
+      .listSync()
+      .whereType<File>()
+      .firstWhereOrNull((e) => path.basename(e.path) == 'pubspec.yaml');
+  if (configFile == null) {
+    return null;
+  }
+  final re0 = RegExp(r'^name: *(?<name>[^ ]*)$');
+  final re1 = RegExp(r'^description: *(?<description>.*)$');
+  final re2 = RegExp(r'^version: *(?<version>[^ ]*)$');
+
+  final lines = await configFile.readAsLines();
+
+  final name = re0
+      .firstMatch(lines.firstWhereOrNull((e) => re0.hasMatch(e)) ?? '')
+      ?.namedGroup('name');
+  final description = re1
+      .firstMatch(lines.firstWhereOrNull((e) => re1.hasMatch(e)) ?? '')
+      ?.namedGroup('description');
+  final version = re2
+      .firstMatch(lines.firstWhereOrNull((e) => re2.hasMatch(e)) ?? '')
+      ?.namedGroup('version');
+  if (name == null || description == null || version == null) {
+    print(
+        'incomplete app info: name=$name, description=$description, version=$version');
+    return null;
+  }
+  return AppInfo(
+    name: name,
+    description: description,
+    version: version,
+  );
 }

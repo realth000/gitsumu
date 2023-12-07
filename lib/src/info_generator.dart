@@ -40,12 +40,18 @@ class InfoGenerator extends Generator {
       return null;
     }
 
+    final appInfo = await getAppInfo();
+    if (appInfo == null) {
+      return null;
+    }
+
     return formatInfo(
       revisionShort,
       revisionLong,
       flutterInfo,
       gitCommitTimeInfo,
       dartVersion,
+      appInfo,
     );
   }
 }

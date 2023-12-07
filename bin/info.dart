@@ -42,12 +42,20 @@ Future<void> generateInfo(String inputPath, String outputPath) async {
   }
   verbosePrint('dart: $dartVersion');
 
+  final appVersion = await gitsumu.getAppInfo();
+  if (appVersion == null) {
+    ePrint('app version not found');
+    exit(1);
+  }
+  verbosePrint('app version: $appVersion');
+
   final code = formatInfo(
     gitRevisionShort,
     gitRevisionLong,
     flutterInfo,
     gitCommitTimeInfo,
     dartVersion,
+    appVersion,
   );
 
   // Copied from source_gen package function uriOfPartial().

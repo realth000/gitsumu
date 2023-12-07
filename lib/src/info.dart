@@ -6,6 +6,7 @@ String formatInfo(
   FlutterInfo flutterInfo,
   GitCommitTimeInfo gitCommitTimeInfo,
   String dartVersion,
+  AppInfo appInfo,
 ) {
   final data = '''
 // Compile environment
@@ -29,6 +30,11 @@ const gitCommitTimeYMDHMS  = '${gitCommitTimeInfo.year}-${gitCommitTimeInfo.mont
 const gitCommitTimeTimezone  = '${gitCommitTimeInfo.timeZone}';
 const gitCommitRevisionLong  = '$revisionLong';
 const gitCommitRevisionShort = '$revisionShort';
+
+// App info
+const appName        = '${appInfo.name}';
+const appDescription = '${appInfo.description}';
+const appVersion     = '${appInfo.version}';
 ''';
 
   return data;

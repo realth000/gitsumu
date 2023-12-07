@@ -10,7 +10,37 @@ Dart package provides code about compile environment (git info, flutter version 
 * [x] Git commit revision.
 * [x] Flutter version.
 * [x] Dart version.
+* [x] App info in pubspec.yaml.
 * [ ] Custom command.
+
+```dart
+// Compile environment
+const flutterVersion = '3.16.0';
+const flutterChannel = 'stable';
+const flutterFrameworkRevision = 'db7ef5bf9f';
+const flutterFrameworkTimestamp = '2023-11-15 11:25:44 -0800';
+const flutterEngineRevision = '74d16627b9';
+const flutterDartVersion = '3.2.0';
+const flutterDevToolsVersion = '2.28.2';
+const dartVersion = '3.2.0 (stable)';
+
+// Repo info
+const gitCommitTimeYear = '2023';
+const gitCommitTimeMonth = '11';
+const gitCommitTimeDay = '13';
+const gitCommitTimeHour = '17';
+const gitCommitTimeMinute = '36';
+const gitCommitTimeSecond = '29';
+const gitCommitTimeYMDHMS = '2023-11-13 17:36:29';
+const gitCommitTimeTimezone = '+0800';
+const gitCommitRevisionLong = 'eec78e9a88d93876a41c5a9bf4368cadcc8ccca8';
+const gitCommitRevisionShort = 'eec78e9';
+
+// App info
+const appName = 'example';
+const appDescription = 'A sample command-line application.';
+const appVersion = '1.0.0';
+```
 
 ## Features
 
