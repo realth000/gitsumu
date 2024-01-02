@@ -1,26 +1,26 @@
 part of 'example.dart';
 
 // Compile environment
-const flutterVersion         = '3.16.0';
+const flutterVersion         = '3.16.5';
 const flutterChannel         = 'stable';
-const flutterFrameworkRevision  = 'db7ef5bf9f';
-const flutterFrameworkTimestamp = '2023-11-15 11:25:44 -0800';
-const flutterEngineRevision  = '74d16627b9';
-const flutterDartVersion     = '3.2.0';
-const flutterDevToolsVersion = '2.28.2';
-const dartVersion            = '3.2.0 (stable)';
+const flutterFrameworkRevision  = '78666c8dc5';
+const flutterFrameworkTimestamp = '2023-12-19 16:14:14 -0800';
+const flutterEngineRevision  = '3f3e560236';
+const flutterDartVersion     = '3.2.3';
+const flutterDevToolsVersion = '2.28.4';
+const dartVersion            = '3.2.3 (stable)';
 
 // Repo info
 const gitCommitTimeYear      = '2023';
-const gitCommitTimeMonth     = '11';
-const gitCommitTimeDay       = '26';
-const gitCommitTimeHour      = '04';
-const gitCommitTimeMinute    = '07';
-const gitCommitTimeSecond    = '12';
-const gitCommitTimeYMDHMS  = '2023-11-26 04:07:12';
+const gitCommitTimeMonth     = '12';
+const gitCommitTimeDay       = '07';
+const gitCommitTimeHour      = '16';
+const gitCommitTimeMinute    = '21';
+const gitCommitTimeSecond    = '22';
+const gitCommitTimeYMDHMS  = '2023-12-07 16:21:22';
 const gitCommitTimeTimezone  = '+0800';
-const gitCommitRevisionLong  = '927a949985f131e27f401287e7915b832f24b301';
-const gitCommitRevisionShort = '927a949';
+const gitCommitRevisionLong  = '4a410c1af875c89c4daeded52530713111ec9244';
+const gitCommitRevisionShort = '4a410c1';
 
 // App info
 const appName        = 'example';
