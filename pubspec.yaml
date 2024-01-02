@@ -3,7 +3,7 @@ description: Dart package provides code about compile environment (git info, flu
 version: 0.1.0
 homepage: https://github.com/realth000/gitsumu
 repository: https://github.com/realth000/gitsumu
-issuetracker: https://github.com/realth000/gitsumu/issues
+issue_tracker: https://github.com/realth000/gitsumu/issues
 
 environment:
   sdk: ^3.1.5
