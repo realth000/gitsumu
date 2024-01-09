@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:args/args.dart';
 import 'package:build/build.dart';
-import 'package:gitsumu/src/gitsumu.dart';
+import 'package:gitsumu/src/entry.dart';
 import 'package:gitsumu/src/info.dart';
+import 'package:gitsumu/src/utils.dart';
 import 'package:source_gen/source_gen.dart';
 
 class InfoGenerator extends Generator {
@@ -12,46 +14,11 @@ class InfoGenerator extends Generator {
 
   @override
   FutureOr<String?> generate(LibraryReader library, BuildStep buildStep) async {
-    final gitCommitTimeInfo = await getGitTime();
-    if (gitCommitTimeInfo == null) {
-      return null;
-    }
-    // print(timeLong);
+    final parser = ArgParser();
+    parser.addFlag('verbose', abbr: 'v', help: 'print more logs');
+    opts = parser.parse([]);
+    final (inputPath, outputPath) = await parsePath();
 
-    final revisionLong = await getGitRevisionLong();
-    if (revisionLong == null) {
-      return null;
-    }
-    // print(revisionLong);
-
-    final revisionShort = await getGitRevisionShort();
-    if (revisionShort == null) {
-      return null;
-    }
-    // print(revisionShort);
-
-    final flutterInfo = await getFlutterVersion();
-    if (flutterInfo == null) {
-      return null;
-    }
-
-    final dartVersion = await getDartVersion();
-    if (dartVersion == null) {
-      return null;
-    }
-
-    final appInfo = await getAppInfo();
-    if (appInfo == null) {
-      return null;
-    }
-
-    return formatInfo(
-      revisionShort,
-      revisionLong,
-      flutterInfo,
-      gitCommitTimeInfo,
-      dartVersion,
-      appInfo,
-    );
+    return generateInfo(inputPath, outputPath);
   }
 }

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 
-late final ArgResults opts;
+late ArgResults opts;
 
 /// Print
 void print(core.Object? object) {

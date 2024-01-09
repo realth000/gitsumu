@@ -166,5 +166,5 @@ Future<void> main() async {
   // It's ok to skip this step when debugging failed tests.
   test('cleaning up', () async {
     await repo.cleanUp();
-  }, skip: true);
+  }, skip: false);
 }

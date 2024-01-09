@@ -13,7 +13,11 @@ import 'package:path/path.dart' as path;
 import 'utils.dart';
 
 // https://stackoverflow.com/questions/53111056/dart-analyzer-sources-needing-processing
-Future<void> generateCustomInfo(String inputPath, String outputPath) async {
+Future<String?> generateCustomInfo(
+  String inputPath,
+  String outputPath, {
+  bool saveToFile = true,
+}) async {
   final projectRootDir = _getCurrentProjectRootDirectory();
   if (projectRootDir == null) {
     ePrint('failed to find root directory of current project\n'
@@ -105,12 +109,18 @@ Future<void> generateCustomInfo(String inputPath, String outputPath) async {
     resultList.add("const ${annotation.name} = '''$commandResult''';");
   }
 
+  if (!saveToFile) {
+    return resultList.join('\n');
+  }
+
   final outputData = '''
 // Custom info
 ${resultList.join('\n')}
 ''';
   final outputFile = File(outputPath);
   outputFile.writeAsString(outputData, mode: FileMode.append);
+
+  return null;
 }
 
 String? _getCurrentProjectRootDirectory() {
