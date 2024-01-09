@@ -40,6 +40,40 @@ const gitCommitRevisionShort = 'eec78e9';
 const appName = 'example';
 const appDescription = 'A sample command-line application.';
 const appVersion = '1.0.0';
+
+// Custom info
+const myCommandResult = '''A command-line utility for Dart development.
+
+Usage: dart <command|dart-file> [arguments]
+
+Global options:
+-v, --verbose               Show additional command output.
+    --version               Print the Dart SDK version.
+    --enable-analytics      Enable analytics.
+    --disable-analytics     Disable analytics.
+    --suppress-analytics    Disallow analytics for this `dart *` run without changing the analytics configuration.
+-h, --help                  Print this usage information.
+
+Available commands:
+  analyze    Analyze Dart code in a directory.
+  compile    Compile Dart to various formats.
+  create     Create a new Dart project.
+  devtools   Open DevTools (optionally connecting to an existing application).
+  doc        Generate API documentation for Dart projects.
+  fix        Apply automated fixes to Dart source code.
+  format     Idiomatically format Dart source code.
+  info       Show diagnostic information about the installed tooling.
+  pub        Work with packages.
+  run        Run a Dart program.
+  test       Run tests for a project.
+
+Run "dart help <command>" for more information about a command.
+See https://dart.dev/tools/dart-tool for detailed documentation.''';
+const myCommandResult2 = '''''';
+const myCommandFromStderr = '''git: 'abc' is not a git command. See 'git --help'.
+
+The most similar command is
+	add''';
 ```
 
 ## Features
@@ -123,7 +157,7 @@ Full example can be found in [example](example) folder.
 
 gitsumu supports saving commands results as const variables.
 
-In the file to generate, define variable for each command:
+In the file to generate, define a variable for each command:
 
 ```dart
 @CustomInfo('myCommandResult')
@@ -136,7 +170,7 @@ const alsoNotImportantName = ['git', 'checkout', '123456789'];
 const alsoNotImportantName2 = ['git', 'abc'];
 ```
 
-Variable name is not important, the generated code will use the arg in annotaion `@CustomInfo()`:
+Variable name is not important, the generated code will use the arg in annotaion `@CustomInfo()` as variable's name.
 
 Generated code:
 
@@ -178,13 +212,12 @@ The most similar command is
 
 Options:
 
-* `ignoreStderr`: `bool` type. Still save contents if the custom command output contents to stderr.
-* `useStderr`: `bool` type. Save the content in stderr as result.
+* `ignoreStderr`: Still save contents if the custom command output contents to stderr. `bool` type, default is false.
+* `useStderr`: Save the content in stderr as result. `bool` type, default is false.
 
-### Change generate directory
+### Change save path
 
-Similar to other packages. Add the following lines to `build.yaml` will change the generated file to `lib/generated/`
-folder:
+Similar to other packages. Add the following lines to `build.yaml` will generat the file in `lib/generated/` directory:
 
 ```yaml
 targets:
@@ -194,11 +227,11 @@ targets:
         generate_for:
           # Only generate for lib/utils/git_info.dart => git_info.g.dart
           - lib/utils/git_info.dart
-        # Uncomment the following options config if you want to generate
-        # code into specified folder, such as "lib/generated".
+        # Use the following "options" config if you want to generate
+        # code into specified folder such as "lib/generated".
         # At the same time, you shall use "part of 'generated/xxx.g.dart';" in your source file
-        # instead of current "part of 'xxx.g.dart'".
-        # Also, recommend to put "lib/generated/" folder in .gitignore.
+        # instead of current "part of 'xxx.g.dart';".
+        # Also, recommend to add "lib/generated/" to .gitignore.
         options:
           build_extensions:
             '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
