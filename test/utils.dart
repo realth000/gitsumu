@@ -144,6 +144,18 @@ class TestRepo {
       supressErr: true,
     );
 
+    // Setup mock user info.
+    await _runCommandInDir(
+      'git',
+      ['config', 'user.email', 'mock@mock.com'],
+      path: name,
+    );
+    await _runCommandInDir(
+      'git',
+      ['config', 'user.name', 'mock'],
+      path: name,
+    );
+
     // Disable gpg signing for test.
     await _runCommandInDir(
       'git',
