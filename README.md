@@ -1,5 +1,7 @@
 # gitsumu
 
+![test](https://github.com/realth000/gitsumu/actions/workflows/test.yml/badge.svg)
+
 Dart package provides code about compile environment (git info, flutter version ...).
 
 ## Introduction
