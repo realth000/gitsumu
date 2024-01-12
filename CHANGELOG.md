@@ -2,6 +2,7 @@
 
 ### Fixed
 
+- Fix failed to generate in pure dart environment (only dart, no flutter).
 - Fix test.
 
 ### Changed

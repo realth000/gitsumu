@@ -10,13 +10,15 @@ import 'package:path/path.dart' as path;
 String formatInfo(
   String revisionShort,
   String revisionLong,
-  FlutterInfo flutterInfo,
+  FlutterInfo? flutterInfo,
   GitCommitTimeInfo gitCommitTimeInfo,
   String dartVersion,
   AppInfo appInfo,
 ) {
-  final data = '''
-// Compile environment
+  // Allow null flutter info in case of pure dart environment.
+  final flutterInfoStr = flutterInfo == null
+      ? ''
+      : '''
 const flutterVersion         = '${flutterInfo.version}';
 const flutterChannel         = '${flutterInfo.channel}';
 const flutterFrameworkRevision  = '${flutterInfo.frameworkRevision}';
@@ -24,6 +26,11 @@ const flutterFrameworkTimestamp = '${flutterInfo.frameworkTimestamp}';
 const flutterEngineRevision  = '${flutterInfo.engineRevision}';
 const flutterDartVersion     = '${flutterInfo.dartVersion}';
 const flutterDevToolsVersion = '${flutterInfo.devToolsVersion}';
+''';
+
+  final data = '''
+// Compile environment
+$flutterInfoStr
 const dartVersion            = '$dartVersion';
 
 // Repo info
@@ -74,8 +81,7 @@ Future<String?> generateInfo(
 
   final flutterInfo = await gitsumu.getFlutterVersion();
   if (flutterInfo == null) {
-    ePrint('flutter info not found');
-    exit(1);
+    print('flutter info not found');
   }
   verbosePrint('flutter: $flutterInfo');
 
