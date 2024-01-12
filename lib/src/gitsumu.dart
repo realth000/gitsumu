@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:collection/collection.dart'; import 'package:path/path.dart' as path;
+import 'package:collection/collection.dart';
+import 'package:path/path.dart' as path;
 
 class GitCommitTimeInfo {
   const GitCommitTimeInfo({
