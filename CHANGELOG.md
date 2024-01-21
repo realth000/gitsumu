@@ -1,5 +1,7 @@
 ## UNRELEASED
 
+## 0.2.1
+
 ### Fixed
 
 - Fix failed to generate in pure dart environment (only dart, no flutter).
