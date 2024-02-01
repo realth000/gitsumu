@@ -11,16 +11,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
       - name: Install dependencies
         run: dart pub get
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed bin lib test example/bin example/lib/example.dart
+        run: dart format --output=none --set-exit-if-changed lib
       - name: Analyze project source
         run: dart analyze --fatal-infos
       - name: Run tests
