@@ -1,6 +1,12 @@
 # gitsumu
 
-![test](https://github.com/realth000/gitsumu/actions/workflows/test.yml/badge.svg)
+<p>
+  <a href="https://github.com/realth000/gitsumu/actions/workflows/test.yml"><img src="https://github.com/realth000/gitsumu/actions/workflows/test.yml/badge.svg" alt="test_ci"></a>
+  <a href="https://pub.dev/packages/gitsumu"><img src="https://img.shields.io/pub/v/gitsumu?logo=dart" alt="pub_version"></a>
+  <a href="https://pub.dev/packages/gitsumu"><img src="https://img.shields.io/pub/points/gitsumu?logo=dart" alt="pub_points"></a>
+  <a href="https://pub.dev/packages/gitsumu"><img src="https://img.shields.io/pub/likes/gitsumu?logo=dart" alt="pub_likes"></a>
+  <a href="https://pub.dev/packages/gitsumu"><img src="https://img.shields.io/pub/popularity/gitsumu?logo=dart" alt="pub_popularity"></a>
+</p>
 
 Dart package provides code about compile environment (git info, flutter version ...).
 
