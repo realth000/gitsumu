@@ -1,4 +1,10 @@
-## UNRELEASED
+## 0.3.0
+
+### Added
+
+- Add platform support for custom commands:
+  - `platforms`: Specify platforms to run the command on.
+  - `platformDefaultValue`: Set command result value on platforms that does not run the command.
 
 ## 0.2.1
 
