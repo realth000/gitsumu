@@ -6,7 +6,6 @@ targets:
         generate_for:
           - lib/example.dart
 ''';
-
 const buildConfigWithExt = '''
 targets:
   \$default:
@@ -21,6 +20,8 @@ targets:
 ''';
 
 const code = '''
+import 'dart:io';
+
 import 'package:gitsumu/annotation.dart';
 
 part "example.g.dart";
@@ -35,6 +36,14 @@ void main(List<String> args) {
       print(myCommandResult2);
     case 'customFromStderr':
       print(myCommandFromStderr);
+    case 'customInfo3':
+      print(myCommandResult3);
+    case 'customInfo4':
+      print(myCommandResult4);
+    case 'customInfo5':
+      print(myCommandResult5);
+    default:
+      throw Exception('Unrecognized test info parameter "\${args.first}"');
   }
 }
 
@@ -46,9 +55,32 @@ const alsoNotImportantName = ['git', 'checkout', '123456789'];
 
 @CustomInfo('myCommandFromStderr', useStderr: true)
 const alsoNotImportantName2 = ['git', 'abc'];
+
+@CustomInfo(
+  'myCommandResult3',
+  platforms: {CustomInfoPlatforms.linux},
+  platformDefaultValue: 'default_not_linux',
+)
+const alsoNotImportantName3 = ['hostname'];
+
+@CustomInfo(
+  'myCommandResult4',
+  platforms: {CustomInfoPlatforms.macos},
+  platformDefaultValue: 'default_not_macos',
+)
+const alsoNotImportantName4 = ['hostname'];
+
+@CustomInfo(
+  'myCommandResult5',
+  platforms: {CustomInfoPlatforms.windows},
+  platformDefaultValue: 'default_not_windows',
+)
+const alsoNotImportantName5 = ['hostname'];
 ''';
 
 const codeWithExt = '''
+import 'dart:io';
+
 import 'package:gitsumu/annotation.dart';
 
 part "../generated/utils/git_info.g.dart";
@@ -63,6 +95,14 @@ void main(List<String> args) {
       print(myCommandResult2);
     case 'customFromStderr':
       print(myCommandFromStderr);
+    case 'customInfo3':
+      print(myCommandResult3);
+    case 'customInfo4':
+      print(myCommandResult4);
+    case 'customInfo5':
+      print(myCommandResult5);
+    default:
+      throw Exception('Unrecognized test info parameter "\${args.first}"');
   }
 }
 
@@ -74,6 +114,27 @@ const alsoNotImportantName = ['git', 'checkout', '123456789'];
 
 @CustomInfo('myCommandFromStderr', useStderr: true)
 const alsoNotImportantName2 = ['git', 'abc'];
+
+@CustomInfo(
+  'myCommandResult3',
+  platforms: {CustomInfoPlatforms.linux},
+  platformDefaultValue: 'default_not_linux',
+)
+const alsoNotImportantName3 = ['hostname'];
+
+@CustomInfo(
+  'myCommandResult4',
+  platforms: {CustomInfoPlatforms.macos},
+  platformDefaultValue: 'default_not_macos',
+)
+const alsoNotImportantName4 = ['hostname'];
+
+@CustomInfo(
+  'myCommandResult5',
+  platforms: {CustomInfoPlatforms.windows},
+  platformDefaultValue: 'default_not_windows',
+)
+const alsoNotImportantName5 = ['hostname'];
 ''';
 
 const gitRef = '.git/refs/heads/master';

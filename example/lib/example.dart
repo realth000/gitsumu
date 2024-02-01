@@ -23,3 +23,21 @@ const alsoNotImportantName = ['git', 'checkout', '123456789'];
 
 @CustomInfo('myCommandFromStderr', useStderr: true)
 const alsoNotImportantName2 = ['git', 'abc'];
+
+@CustomInfo(
+  'myCommandResult3',
+  platforms: {
+    CustomInfoPlatforms.linux,
+    CustomInfoPlatforms.macos,
+  },
+)
+const alsoNotImportantName3 = ['arch'];
+
+@CustomInfo(
+  'myCommandResult4',
+  platforms: {
+    CustomInfoPlatforms.windows,
+  },
+  platformDefaultValue: 'unknown',
+)
+const alsoNotImportantName4 = ['hostname'];

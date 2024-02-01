@@ -52,6 +52,28 @@ Future<void> main() async {
           await Process.run('$repoName/$exePath', ['customFromStderr']);
       expect((out4.stdout as String).trim().isNotEmpty, true);
 
+      // Platform specified custom info.
+      final out5 = await Process.run('$repoName/$exePath', ['customInfo3']);
+      if (Platform.isLinux) {
+        final expect5 = Process.runSync('hostname', []).stdout as String;
+        expect((out5.stdout as String).trim(), expect5.trim());
+      } else {
+        expect((out5.stdout as String).trim(), 'default_not_linux');
+      }
+      final out6 = await Process.run('$repoName/$exePath', ['customInfo4']);
+      if (Platform.isMacOS) {
+        final expect6 = Process.runSync('hostname', []).stdout as String;
+        expect((out6.stdout as String).trim(), expect6.trim());
+      } else {
+        expect((out6.stdout as String).trim(), 'default_not_macos');
+      }
+      final out7 = await Process.run('$repoName/$exePath', ['customInfo5']);
+      if (Platform.isWindows) {
+        expect((out7.stdout as String).trim(), '');
+      } else {
+        expect((out7.stdout as String).trim(), 'default_not_windows');
+      }
+
       print('passed');
     });
 
@@ -93,6 +115,28 @@ Future<void> main() async {
           await Process.run('$repoName/$utilExePath', ['customFromStderr']);
       expect((out4.stdout as String).trim().isNotEmpty, true);
 
+      // Platform specified custom info.
+      final out5 = await Process.run('$repoName/$utilExePath', ['customInfo3']);
+      if (Platform.isLinux) {
+        final expect5 = Process.runSync('hostname', []).stdout as String;
+        expect((out5.stdout as String).trim(), expect5.trim());
+      } else {
+        expect((out5.stdout as String).trim(), 'default_not_linux');
+      }
+      final out6 = await Process.run('$repoName/$utilExePath', ['customInfo4']);
+      if (Platform.isMacOS) {
+        final expect6 = Process.runSync('hostname', []).stdout as String;
+        expect((out6.stdout as String).trim(), expect6.trim());
+      } else {
+        expect((out6.stdout as String).trim(), 'default_not_macos');
+      }
+      final out7 = await Process.run('$repoName/$utilExePath', ['customInfo5']);
+      if (Platform.isWindows) {
+        expect((out7.stdout as String).trim(), '');
+      } else {
+        expect((out7.stdout as String).trim(), 'default_not_windows');
+      }
+
       print('passed');
     });
 
@@ -130,6 +174,37 @@ Future<void> main() async {
             await Process.run('$repoName/$exePath', ['gitRevisionLong']);
         expect(commitHash, (out1.stdout as String).replaceAll('\r', ''),
             reason: 'expected to have the latest git commit revision hash');
+
+        // Custom info
+        final out2 = await Process.run('$repoName/$exePath', ['customInfo']);
+        expect((out2.stdout as String).trim().isNotEmpty, true);
+        final out3 = await Process.run('$repoName/$exePath', ['customInfo2']);
+        expect((out3.stdout as String).replaceAll('\r', ''), equals('\n'));
+        final out4 =
+            await Process.run('$repoName/$exePath', ['customFromStderr']);
+        expect((out4.stdout as String).trim().isNotEmpty, true);
+
+        // Platform specified custom info.
+        final out5 = await Process.run('$repoName/$exePath', ['customInfo3']);
+        if (Platform.isLinux) {
+          final expect5 = Process.runSync('hostname', []).stdout as String;
+          expect((out5.stdout as String).trim(), expect5.trim());
+        } else {
+          expect((out5.stdout as String).trim(), 'default_not_linux');
+        }
+        final out6 = await Process.run('$repoName/$exePath', ['customInfo4']);
+        if (Platform.isMacOS) {
+          final expect6 = Process.runSync('hostname', []).stdout as String;
+          expect((out6.stdout as String).trim(), expect6.trim());
+        } else {
+          expect((out6.stdout as String).trim(), 'default_not_macos');
+        }
+        final out7 = await Process.run('$repoName/$exePath', ['customInfo5']);
+        if (Platform.isWindows) {
+          expect((out7.stdout as String).trim(), '');
+        } else {
+          expect((out7.stdout as String).trim(), 'default_not_windows');
+        }
 
         print('passed');
       },
@@ -170,6 +245,42 @@ Future<void> main() async {
             await Process.run('$repoName/$utilExePath', ['gitRevisionLong']);
         expect(commitHash, (out1.stdout as String).replaceAll('\r', ''),
             reason: 'expected to have the latest git commit revision hash');
+
+        // Custom info
+        final out2 =
+            await Process.run('$repoName/$utilExePath', ['customInfo']);
+        expect((out2.stdout as String).trim().isNotEmpty, true);
+        final out3 =
+            await Process.run('$repoName/$utilExePath', ['customInfo2']);
+        expect((out3.stdout as String).replaceAll('\r', ''), equals('\n'));
+        final out4 =
+            await Process.run('$repoName/$utilExePath', ['customFromStderr']);
+        expect((out4.stdout as String).trim().isNotEmpty, true);
+
+        // Platform specified custom info.
+        final out5 =
+            await Process.run('$repoName/$utilExePath', ['customInfo3']);
+        if (Platform.isLinux) {
+          final expect5 = Process.runSync('hostname', []).stdout as String;
+          expect((out5.stdout as String).trim(), expect5.trim());
+        } else {
+          expect((out5.stdout as String).trim(), 'default_not_linux');
+        }
+        final out6 =
+            await Process.run('$repoName/$utilExePath', ['customInfo4']);
+        if (Platform.isMacOS) {
+          final expect6 = Process.runSync('hostname', []).stdout as String;
+          expect((out6.stdout as String).trim(), expect6.trim());
+        } else {
+          expect((out6.stdout as String).trim(), 'default_not_macos');
+        }
+        final out7 =
+            await Process.run('$repoName/$utilExePath', ['customInfo5']);
+        if (Platform.isWindows) {
+          expect((out7.stdout as String).trim(), '');
+        } else {
+          expect((out7.stdout as String).trim(), 'default_not_windows');
+        }
 
         print('passed');
       },

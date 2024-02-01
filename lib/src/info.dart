@@ -1,5 +1,4 @@
 import 'package:gitsumu/src/gitsumu.dart';
-
 import 'dart:async';
 import 'dart:io';
 

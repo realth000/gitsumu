@@ -18,6 +18,18 @@ Future<String?> generateCustomInfo(
   String outputPath, {
   bool saveToFile = true,
 }) async {
+  late final CustomInfoPlatforms currentPlatform;
+  if (Platform.isLinux) {
+    currentPlatform = CustomInfoPlatforms.linux;
+  } else if (Platform.isWindows) {
+    currentPlatform = CustomInfoPlatforms.windows;
+  } else if (Platform.isMacOS) {
+    currentPlatform = CustomInfoPlatforms.macos;
+  } else {
+    ePrint('custom command is unavailable on current platform');
+    exit(1);
+  }
+
   final projectRootDir = _getCurrentProjectRootDirectory();
   if (projectRootDir == null) {
     ePrint('failed to find root directory of current project\n'
@@ -94,6 +106,15 @@ Future<String?> generateCustomInfo(
         .map((e) => e.stringValue!)
         .toList();
 
+    if (!annotation.platforms.contains(currentPlatform)) {
+      verbosePrint(
+          'command $commandAndArgs use default value which is not enabled on current platform $currentPlatform');
+      // TODO: Use null value to represent not available on current platform.
+      resultList.add(
+          "const ${annotation.name} = '''${annotation.platformDefaultValue}''';");
+      continue;
+    }
+
     verbosePrint('run command: $commandAndArgs');
 
     final command = commandAndArgs.removeAt(0);
@@ -144,6 +165,8 @@ extension ParseCustomInfo on Annotation {
     String? name;
     bool ignoreStderr = false;
     bool useStderr = false;
+    final platforms = <CustomInfoPlatforms>{};
+    String platformDefaultValue = '';
 
     for (final arg in arguments!.arguments) {
       // Name only.
@@ -159,13 +182,58 @@ extension ParseCustomInfo on Annotation {
             ignoreStderr = (arg.expression as BooleanLiteral).value;
           case 'useStderr':
             useStderr = (arg.expression as BooleanLiteral).value;
+          case 'platforms':
+            platforms.addAll(_parsePlatformList(arg));
+          case 'platformDefaultValue':
+            platformDefaultValue =
+                (arg.expression as StringLiteral).stringValue ?? '';
         }
       }
+    }
+
+    if (platforms.isEmpty) {
+      // Set with default values.
+      platforms.addAll({
+        CustomInfoPlatforms.linux,
+        CustomInfoPlatforms.macos,
+        CustomInfoPlatforms.windows,
+      });
     }
 
     if (name == null) {
       return null;
     }
-    return CustomInfo(name, ignoreStderr: ignoreStderr, useStderr: useStderr);
+    return CustomInfo(
+      name,
+      ignoreStderr: ignoreStderr,
+      useStderr: useStderr,
+      platforms: platforms,
+      platformDefaultValue: platformDefaultValue,
+    );
+  }
+
+  Set<CustomInfoPlatforms> _parsePlatformList(
+    NamedExpression namedExpression,
+  ) {
+    final ret = <CustomInfoPlatforms>{};
+    final platformList = (namedExpression.expression as SetOrMapLiteral)
+        .elements
+        .where((e) =>
+            (e as Expression).staticType.toString() == "CustomInfoPlatforms")
+        .map((e) => (e as PrefixedIdentifier).identifier.toString())
+        .toList();
+
+    for (final platform in platformList) {
+      switch (platform) {
+        case "linux":
+          ret.add(CustomInfoPlatforms.linux);
+        case "macos":
+          ret.add(CustomInfoPlatforms.macos);
+        case "windows":
+          ret.add(CustomInfoPlatforms.windows);
+      }
+    }
+
+    return ret;
   }
 }

@@ -76,6 +76,8 @@ const myCommandFromStderr = '''git: 'abc' is not a git command. See 'git --help'
 
 The most similar command is
 	add''';
+const myCommandResult3 = '''x86_64''';
+const myCommandResult4 = '''x86_64''';
 ```
 
 ## Features
@@ -170,6 +172,24 @@ const alsoNotImportantName = ['git', 'checkout', '123456789'];
 
 @CustomInfo('myCommandFromStderr', useStderr: true)
 const alsoNotImportantName2 = ['git', 'abc'];
+
+@CustomInfo(
+  'myCommandResult3',
+  platforms: {
+    CustomInfoPlatforms.linux,
+    CustomInfoPlatforms.macos,
+  },
+)
+const alsoNotImportantName3 = ['arch'];
+
+@CustomInfo(
+  'myCommandResult4',
+  platforms: {
+    CustomInfoPlatforms.windows,
+  },
+  platformDefaultValue: 'unknown',
+)
+const alsoNotImportantName4 = ['hostname'];
 ```
 
 Variable name is not important, the generated code will use the arg in annotaion `@CustomInfo()` as variable's name.
@@ -210,12 +230,16 @@ const myCommandFromStderr = '''git: 'abc' is not a git command. See 'git --help'
 
 The most similar command is
 	add''';
+const myCommandResult3 = '''x86_64''';
+const myCommandResult4 = '''unknown''';
 ```
 
 Options:
 
 * `ignoreStderr`: Still save contents if the custom command output contents to stderr. `bool` type, default is false.
 * `useStderr`: Save the content in stderr as result. `bool` type, default is false.
+* `platforms`: Specify only run the command on which platform, default value is all platforms.
+* `platformDefaultValue`: Set the command result on platforms that not included in `platforms`, default is an empty string.
 
 ### Change save path
 
