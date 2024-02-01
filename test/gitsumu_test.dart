@@ -69,7 +69,8 @@ Future<void> main() async {
       }
       final out7 = await Process.run('$repoName/$exePath', ['customInfo5']);
       if (Platform.isWindows) {
-        expect((out7.stdout as String).trim(), '');
+        final expect7 = Process.runSync('hostname', []).stdout as String;
+        expect((out7.stdout as String).trim(), expect7.trim());
       } else {
         expect((out7.stdout as String).trim(), 'default_not_windows');
       }
@@ -132,7 +133,8 @@ Future<void> main() async {
       }
       final out7 = await Process.run('$repoName/$utilExePath', ['customInfo5']);
       if (Platform.isWindows) {
-        expect((out7.stdout as String).trim(), '');
+        final expect7 = Process.runSync('hostname', []).stdout as String;
+        expect((out7.stdout as String).trim(), expect7.trim());
       } else {
         expect((out7.stdout as String).trim(), 'default_not_windows');
       }
@@ -201,7 +203,8 @@ Future<void> main() async {
         }
         final out7 = await Process.run('$repoName/$exePath', ['customInfo5']);
         if (Platform.isWindows) {
-          expect((out7.stdout as String).trim(), '');
+          final expect7 = Process.runSync('hostname', []).stdout as String;
+          expect((out7.stdout as String).trim(), expect7.trim());
         } else {
           expect((out7.stdout as String).trim(), 'default_not_windows');
         }
@@ -277,7 +280,8 @@ Future<void> main() async {
         final out7 =
             await Process.run('$repoName/$utilExePath', ['customInfo5']);
         if (Platform.isWindows) {
-          expect((out7.stdout as String).trim(), '');
+          final expect7 = Process.runSync('hostname', []).stdout as String;
+          expect((out7.stdout as String).trim(), expect7.trim());
         } else {
           expect((out7.stdout as String).trim(), 'default_not_windows');
         }
