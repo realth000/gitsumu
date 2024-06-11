@@ -82,8 +82,7 @@ Future<String?> generateCustomInfo(
     verbosePrint('variable: $variable');
 
     // Variable type should be list of string.
-    final variableType =
-        variable.declaredElement?.type.getDisplayString(withNullability: true);
+    final variableType = variable.declaredElement?.type.getDisplayString();
     if (variableType != 'List<String>') {
       ePrint(
         'only support declaring custom commands using List<String>, got $variableType',
