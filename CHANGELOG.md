@@ -1,3 +1,9 @@
+## 0.4.0
+
+### Added
+
+- Add `gitCommitCount` for current rev total commit count.
+
 ## 0.3.0
 
 ### Added
