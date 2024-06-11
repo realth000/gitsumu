@@ -82,7 +82,13 @@ Future<String?> generateCustomInfo(
     verbosePrint('variable: $variable');
 
     // Variable type should be list of string.
-    final variableType = variable.declaredElement?.type.getDisplayString();
+    //
+    // FIXME: Fix `withNullability` when deps resolved.
+    //
+    // Package analyzer use `withNullability` as required parameter before 6.5.0
+    // but marked deprecated since 6.5.0.
+    final variableType =
+        variable.declaredElement?.type.getDisplayString(withNullability: true);
     if (variableType != 'List<String>') {
       ePrint(
         'only support declaring custom commands using List<String>, got $variableType',

@@ -1,3 +1,10 @@
+## 0.4.1
+
+### Fixed
+
+- Fix `withNullability` param issue in analyzer package APIs.
+  - analyzer before 6.5.0 requires it but marked deprecated since 6.5.0. Keep the param.
+
 ## 0.4.0
 
 ### Added
