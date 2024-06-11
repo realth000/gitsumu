@@ -31,7 +31,7 @@ const alsoNotImportantName2 = ['git', 'abc'];
     CustomInfoPlatforms.macos,
   },
 )
-const alsoNotImportantName3 = ['arch'];
+const alsoNotImportantName3 = ['uname', '-m'];
 
 @CustomInfo(
   'myCommandResult4',
