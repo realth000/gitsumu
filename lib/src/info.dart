@@ -1,14 +1,15 @@
-import 'package:gitsumu/src/gitsumu.dart';
 import 'dart:async';
 import 'dart:io';
 
 import 'package:gitsumu/src/gitsumu.dart' as gitsumu;
+import 'package:gitsumu/src/gitsumu.dart';
 import 'package:gitsumu/src/utils.dart';
 import 'package:path/path.dart' as path;
 
 String formatInfo(
   String revisionShort,
   String revisionLong,
+  String commitCount,
   FlutterInfo? flutterInfo,
   GitCommitTimeInfo gitCommitTimeInfo,
   String dartVersion,
@@ -43,6 +44,7 @@ const gitCommitTimeYMDHMS  = '${gitCommitTimeInfo.year}-${gitCommitTimeInfo.mont
 const gitCommitTimeTimezone  = '${gitCommitTimeInfo.timeZone}';
 const gitCommitRevisionLong  = '$revisionLong';
 const gitCommitRevisionShort = '$revisionShort';
+const gitCommitCount         = '$commitCount';
 
 // App info
 const appName        = '${appInfo.name}';
@@ -78,6 +80,13 @@ Future<String?> generateInfo(
   }
   verbosePrint('git revision short: $gitRevisionShort');
 
+  final gitCommitCount = await gitsumu.getGitCommitCount();
+  if (gitCommitCount == null) {
+    ePrint('git commit count not found');
+    exit(1);
+  }
+  verbosePrint('git commit count: $gitCommitCount');
+
   final flutterInfo = await gitsumu.getFlutterVersion();
   if (flutterInfo == null) {
     print('flutter info not found');
@@ -101,6 +110,7 @@ Future<String?> generateInfo(
   final code = formatInfo(
     gitRevisionShort,
     gitRevisionLong,
+    gitCommitCount,
     flutterInfo,
     gitCommitTimeInfo,
     dartVersion,

@@ -106,6 +106,21 @@ Future<String?> getGitRevisionShort() async {
   return out.trim();
 }
 
+Future<String?> getGitCommitCount() async {
+  final (out, err) = await runCommand('git', [
+    '--no-pager',
+    'rev-list',
+    '--count',
+    '--all',
+  ]);
+
+  if (err.isNotEmpty) {
+    print('failed to get git commit count: $err');
+    return null;
+  }
+  return out.trim();
+}
+
 Future<GitCommitTimeInfo?> getGitTime() async {
   final (out, err) = await runCommand('git', [
     '--no-pager',

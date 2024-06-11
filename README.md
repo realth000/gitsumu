@@ -16,6 +16,7 @@ Dart package provides code about compile environment (git info, flutter version 
 
 * [x] Git commit time.
 * [x] Git commit revision.
+* [x] Git commit count.
 * [x] Flutter version.
 * [x] Dart version.
 * [x] App info in `pubspec.yaml`.
@@ -170,6 +171,7 @@ gitsumu supports saving commands results as const variables.
 In the file to generate, define a variable for each command:
 
 ```dart
+
 @CustomInfo('myCommandResult')
 const aNotImportantName = ['dart', '--help'];
 
