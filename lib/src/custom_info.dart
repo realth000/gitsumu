@@ -88,6 +88,7 @@ Future<String?> generateCustomInfo(
     // Package analyzer use `withNullability` as required parameter before 6.5.0
     // but marked deprecated since 6.5.0.
     final variableType =
+        //ignore: deprecated_member_use
         variable.declaredElement?.type.getDisplayString(withNullability: true);
     if (variableType != 'List<String>') {
       ePrint(
