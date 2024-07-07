@@ -1,3 +1,15 @@
+## 0.5.0
+
+### Added
+
+- Use `powershell` to run custom command on Windows.
+- Make platform related args nullable.
+- Ignore custom command that both not planned to run on current platform and have no default value.
+
+### Fixed
+
+- Fix CI.
+
 ## 0.4.1
 
 ### Fixed
