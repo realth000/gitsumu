@@ -15,7 +15,7 @@ class CustomInfo {
       CustomInfoPlatforms.macos,
       CustomInfoPlatforms.windows,
     },
-    this.platformDefaultValue = '',
+    this.platformDefaultValue,
   });
 
   /// Output variable name.
@@ -63,7 +63,7 @@ class CustomInfo {
   /// Keep empty in current versions because settings a null default
   /// value will cause the type of generated variables changes from `String`
   /// to `String?`, which is a BREAKING CHANGE.
-  final String platformDefaultValue;
+  final String? platformDefaultValue;
 
   @override
   String toString() {

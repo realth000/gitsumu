@@ -112,11 +112,17 @@ Future<String?> generateCustomInfo(
         .toList();
 
     if (!annotation.platforms.contains(currentPlatform)) {
-      verbosePrint(
-          'command $commandAndArgs use default value which is not enabled on current platform $currentPlatform');
-      // TODO: Use null value to represent not available on current platform.
-      resultList.add(
-          "const ${annotation.name} = '''${annotation.platformDefaultValue}''';");
+      // Current platform not enabled.
+      if (annotation.platformDefaultValue != null) {
+        // Have default value.
+        verbosePrint(
+            'command $commandAndArgs use default value which is not enabled on current platform $currentPlatform');
+        // TODO: Use null value to represent not available on current platform.
+        resultList.add(
+            "const ${annotation.name} = '''${annotation.platformDefaultValue}''';");
+        continue;
+      }
+      // Do nothing if when both platform not enabled and default value not set.
       continue;
     }
 
