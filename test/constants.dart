@@ -88,21 +88,21 @@ const alsoNotImportantName5 = ['hostname'];
   'myCommandResult6',
   platforms: {CustomInfoPlatforms.windows},
 )
-const name6 = [''];
+const name6 = ['hostname'];
 
 // Should only generate on Linux.
 @CustomInfo(
   'myCommandResult7',
   platforms: {CustomInfoPlatforms.linux},
 )
-const name7 = [''];
+const name7 = ['hostname'];
 
 // Should only generate on MacOS.
 @CustomInfo(
   'myCommandResult8',
   platforms: {CustomInfoPlatforms.macos},
 )
-const name8 = [''];
+const name8 = ['hostname'];
 ''';
 
 const codeWithExt =
@@ -170,21 +170,21 @@ const alsoNotImportantName5 = ['hostname'];
   'myCommandResult6',
   platforms: {CustomInfoPlatforms.windows},
 )
-const name6 = [''];
+const name6 = ['hostname'];
 
 // Should only generate on Linux.
 @CustomInfo(
   'myCommandResult7',
   platforms: {CustomInfoPlatforms.linux},
 )
-const name7 = [''];
+const name7 = ['hostname'];
 
 // Should only generate on MacOS.
 @CustomInfo(
   'myCommandResult8',
   platforms: {CustomInfoPlatforms.macos},
 )
-const name8 = [''];
+const name8 = ['hostname'];
 ''';
 
 const gitRef = '.git/refs/heads/master';
