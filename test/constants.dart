@@ -82,6 +82,27 @@ const alsoNotImportantName4 = ['hostname'];
   platformDefaultValue: 'default_not_windows',
 )
 const alsoNotImportantName5 = ['hostname'];
+
+// Should only generate on Windows.
+@CustomInfo(
+  'myCommandResult6',
+  platforms: {CustomInfoPlatforms.windows},
+)
+const name6 = [''];
+
+// Should only generate on Linux.
+@CustomInfo(
+  'myCommandResult7',
+  platforms: {CustomInfoPlatforms.linux},
+)
+const name7 = [''];
+
+// Should only generate on MacOS.
+@CustomInfo(
+  'myCommandResult8',
+  platforms: {CustomInfoPlatforms.macos},
+)
+const name8 = [''];
 ''';
 
 const codeWithExt =
@@ -143,6 +164,27 @@ const alsoNotImportantName4 = ['hostname'];
   platformDefaultValue: 'default_not_windows',
 )
 const alsoNotImportantName5 = ['hostname'];
+
+// Should only generate on Windows.
+@CustomInfo(
+  'myCommandResult6',
+  platforms: {CustomInfoPlatforms.windows},
+)
+const name6 = [''];
+
+// Should only generate on Linux.
+@CustomInfo(
+  'myCommandResult7',
+  platforms: {CustomInfoPlatforms.linux},
+)
+const name7 = [''];
+
+// Should only generate on MacOS.
+@CustomInfo(
+  'myCommandResult8',
+  platforms: {CustomInfoPlatforms.macos},
+)
+const name8 = [''];
 ''';
 
 const gitRef = '.git/refs/heads/master';

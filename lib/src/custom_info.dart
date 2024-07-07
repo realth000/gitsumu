@@ -118,7 +118,6 @@ Future<String?> generateCustomInfo(
         // Have default value.
         verbosePrint(
             'command $commandAndArgs use default value which is not enabled on current platform $currentPlatform');
-        // TODO: Use null value to represent not available on current platform.
         resultList.add(
             "const ${annotation.name} = '''${annotation.platformDefaultValue}''';");
         continue;
@@ -178,7 +177,7 @@ extension ParseCustomInfo on Annotation {
     bool ignoreStderr = false;
     bool useStderr = false;
     final platforms = <CustomInfoPlatforms>{};
-    String platformDefaultValue = '';
+    String? platformDefaultValue;
 
     for (final arg in arguments!.arguments) {
       // Name only.
@@ -198,7 +197,7 @@ extension ParseCustomInfo on Annotation {
             platforms.addAll(_parsePlatformList(arg));
           case 'platformDefaultValue':
             platformDefaultValue =
-                (arg.expression as StringLiteral).stringValue ?? '';
+                (arg.expression as StringLiteral).stringValue;
         }
       }
     }

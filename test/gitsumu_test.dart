@@ -75,6 +75,8 @@ Future<void> main() async {
         expect((out7.stdout as String).trim(), 'default_not_windows');
       }
 
+      checkPlatformEnabledCode(generatedFile.readAsStringSync());
+
       print('passed');
     });
 
@@ -138,6 +140,8 @@ Future<void> main() async {
       } else {
         expect((out7.stdout as String).trim(), 'default_not_windows');
       }
+
+      checkPlatformEnabledCode(generatedFile.readAsStringSync());
 
       print('passed');
     });
@@ -208,6 +212,8 @@ Future<void> main() async {
         } else {
           expect((out7.stdout as String).trim(), 'default_not_windows');
         }
+
+        checkPlatformEnabledCode(generatedFile.readAsStringSync());
 
         print('passed');
       },
@@ -286,9 +292,29 @@ Future<void> main() async {
           expect((out7.stdout as String).trim(), 'default_not_windows');
         }
 
+        checkPlatformEnabledCode(generatedFile.readAsStringSync());
+
         print('passed');
       },
       timeout: Timeout.factor(2),
     );
   });
+}
+
+/// Check code that intend to only available on specified platforms and not
+/// present on other platforms.
+void checkPlatformEnabledCode(String data) {
+  if (Platform.isWindows) {
+    expect(data.contains('const myCommandResult6 = '), true);
+    expect(data.contains('const myCommandResult7 = '), false);
+    expect(data.contains('const myCommandResult8 = '), false);
+  } else if (Platform.isLinux) {
+    expect(data.contains('const myCommandResult6 = '), false);
+    expect(data.contains('const myCommandResult7 = '), true);
+    expect(data.contains('const myCommandResult8 = '), false);
+  } else if (Platform.isMacOS) {
+    expect(data.contains('const myCommandResult6 = '), false);
+    expect(data.contains('const myCommandResult7 = '), false);
+    expect(data.contains('const myCommandResult8 = '), true);
+  }
 }
