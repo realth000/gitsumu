@@ -1,4 +1,6 @@
-const buildConfig = ''' 
+const buildConfig =
+// language=yaml
+    '''
 targets:
   \$default:
     builders:
@@ -6,7 +8,9 @@ targets:
         generate_for:
           - lib/example.dart
 ''';
-const buildConfigWithExt = '''
+const buildConfigWithExt =
+// language=yaml
+    '''
 targets:
   \$default:
     builders:
@@ -19,7 +23,9 @@ targets:
           - lib/utils/git_info.dart
 ''';
 
-const code = '''
+const code =
+// language=dart
+    '''
 import 'dart:io';
 
 import 'package:gitsumu/annotation.dart';
@@ -78,7 +84,9 @@ const alsoNotImportantName4 = ['hostname'];
 const alsoNotImportantName5 = ['hostname'];
 ''';
 
-const codeWithExt = '''
+const codeWithExt =
+// language=dart
+    '''
 import 'dart:io';
 
 import 'package:gitsumu/annotation.dart';

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:gitsumu/src/utils.dart';
 import 'package:path/path.dart' as path;
 
 class GitCommitTimeInfo {
@@ -67,7 +68,22 @@ class AppInfo {
 }
 
 Future<(String, String)> runCommand(String command, List<String> args) async {
-  final commandResult = await Process.run(command, args, runInShell: true);
+  final String computedCommand;
+  final List<String> computedArgs;
+  if (Platform.isWindows) {
+    computedCommand = 'powershell';
+    computedArgs = <String>['-c', command, ...args];
+  } else {
+    computedCommand = command;
+    computedArgs = args;
+  }
+  verbosePrint('computed command: $computedCommand');
+  verbosePrint('computed args: $computedArgs');
+  final commandResult = await Process.run(
+    computedCommand,
+    computedArgs,
+    runInShell: true,
+  );
   final cleanedOutput = (commandResult.stdout as String).replaceAll('\r', '');
   return (cleanedOutput, commandResult.stderr as String);
 }
@@ -83,7 +99,7 @@ Future<String?> getGitRevisionLong() async {
   ]);
 
   if (err.isNotEmpty) {
-    print('failed to get git long format revision: $err');
+    ePrint('failed to get git long format revision: $err');
     return null;
   }
   return out.trim();
@@ -100,7 +116,7 @@ Future<String?> getGitRevisionShort() async {
   ]);
 
   if (err.isNotEmpty) {
-    print('failed to get git short format revision: $err');
+    ePrint('failed to get git short format revision: $err');
     return null;
   }
   return out.trim();
@@ -115,7 +131,7 @@ Future<String?> getGitCommitCount() async {
   ]);
 
   if (err.isNotEmpty) {
-    print('failed to get git commit count: $err');
+    ePrint('failed to get git commit count: $err');
     return null;
   }
   return out.trim();
@@ -133,13 +149,13 @@ Future<GitCommitTimeInfo?> getGitTime() async {
   ]);
 
   if (err.isNotEmpty) {
-    print('failed to get git commit time: $err');
+    ePrint('failed to get git commit time: $err');
     return null;
   }
 
   final list = out.trim().split('-').toList();
   if (list.length != 7) {
-    print('incomplete git commit time, get: $list');
+    ePrint('incomplete git commit time, get: $list');
     return null;
   }
 
@@ -162,7 +178,7 @@ Future<FlutterInfo?> getFlutterVersion() async {
 
   final infoStringList = out.replaceAll('\r', '').split('\n');
   if (infoStringList.length < 4) {
-    print('invalid info: $infoStringList');
+    ePrint('invalid info: $infoStringList');
     return null;
   }
 
@@ -198,7 +214,7 @@ Future<FlutterInfo?> getFlutterVersion() async {
       engineRevision == null ||
       dartVersion == null ||
       devToolsVersion == null) {
-    print('invalid flutter info: version=$version, channel=$channel, '
+    ePrint('invalid flutter info: version=$version, channel=$channel, '
         'frameworkRevision=$frameworkRevision, frameworkTimestamp=$frameworkTimestamp, '
         'engineRevision=$engineRevision, '
         'dartVersion=$dartVersion, devToolsVersion=$devToolsVersion');
@@ -251,7 +267,7 @@ Future<AppInfo?> getAppInfo() async {
       .firstMatch(lines.firstWhereOrNull((e) => re2.hasMatch(e)) ?? '')
       ?.namedGroup('version');
   if (name == null || description == null || version == null) {
-    print(
+    ePrint(
         'incomplete app info: name=$name, description=$description, version=$version');
     return null;
   }
