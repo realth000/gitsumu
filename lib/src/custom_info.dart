@@ -15,9 +15,8 @@ import 'utils.dart';
 // https://stackoverflow.com/questions/53111056/dart-analyzer-sources-needing-processing
 Future<String?> generateCustomInfo(
   String inputPath,
-  String outputPath, {
-  bool saveToFile = true,
-}) async {
+  String outputPath,
+) async {
   late final CustomInfoPlatforms currentPlatform;
   if (Platform.isLinux) {
     currentPlatform = CustomInfoPlatforms.linux;
@@ -53,7 +52,11 @@ Future<String?> generateCustomInfo(
     throw Exception('failed to parse $filePath: ${resolvedUnit.runtimeType}');
   }
 
-  final resultList = <String>[];
+  // Stores all generated custom command.
+  // Keys is ${annotation.name}, value is generated text.
+  //
+  // Reserve info and used to remove duplicate result came from build cache.
+  final resultList = <String, String>{};
 
   final element = resolvedUnit.unit;
   for (final d in element.declarations) {
@@ -118,8 +121,9 @@ Future<String?> generateCustomInfo(
         // Have default value.
         verbosePrint(
             'command $commandAndArgs use default value which is not enabled on current platform $currentPlatform');
-        resultList.add(
-            "const ${annotation.name} = '''${annotation.platformDefaultValue}''';");
+        resultList[annotation.name] = "\n// @@start@@ ${annotation.name}\n"
+            "const ${annotation.name} = '''${annotation.platformDefaultValue}''';\n"
+            "// @@end@@ ${annotation.name}";
         continue;
       }
       // Do nothing if when both platform not enabled and default value not set.
@@ -138,19 +142,55 @@ Future<String?> generateCustomInfo(
 
     final commandResult = annotation.useStderr ? err.trim() : out.trim();
     // Use ''' to allow multiple lines.
-    resultList.add("const ${annotation.name} = '''$commandResult''';");
+    resultList[annotation.name] = "\n// @@start@@ ${annotation.name}\n"
+        "const ${annotation.name} = '''$commandResult''';\n"
+        "// @@end@@ ${annotation.name}";
   }
 
-  if (!saveToFile) {
-    return resultList.join('\n');
-  }
-
-  final outputData = '''
-// Custom info
-${resultList.join('\n')}
-''';
+  final outputData = resultList.values.join('\n');
   final outputFile = File(outputPath);
-  outputFile.writeAsString(outputData, mode: FileMode.append);
+
+  // Here we strip duplicate generated variables which came from build cache.
+  //
+  // For some reason, build_runner is caching file output in this generator and prepend those
+  // cached data into output file just before running the custom builder.
+  // This results in duplicate variables definitions which become annoying compile time error.
+  //
+  // So remove those data by checking for the start line and end line prepend/append to generated
+  // code:
+  //
+  // ```dart
+  // // @@start@@ ${annotation.name}
+  // generated code here
+  // // @@end@@ ${annotation.name}
+  // ```
+  if (outputFile.existsSync()) {
+    verbosePrint(
+        'output file exsits, stripping outdated custom variables came from build cache...');
+    final oldLines = await outputFile.readAsLines();
+    final reservedLines = <String>[];
+    bool skipping = false;
+    for (final line in oldLines) {
+      if (line.startsWith('// @@end@@ ') && skipping) {
+        verbosePrint('[strip] end skipping on line "$line"');
+        skipping = false;
+        continue;
+      } else if (line.startsWith('// @@start@@ ') && !skipping) {
+        verbosePrint('[strip] start skipping on line "$line"');
+        skipping = true;
+        continue;
+      }
+      if (skipping) {
+        continue;
+      }
+
+      reservedLines.add(line);
+    }
+
+    await outputFile.writeAsString(reservedLines.join('\n'));
+  }
+
+  await outputFile.writeAsString(outputData, mode: FileMode.append);
 
   return null;
 }

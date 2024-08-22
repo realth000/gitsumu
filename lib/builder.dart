@@ -28,7 +28,7 @@ class InfoBuilder implements Builder {
     if (data == null) {
       return;
     }
-    buildStep.writeAsString(buildStep.allowedOutputs.single, data);
+    await buildStep.writeAsString(buildStep.allowedOutputs.single, data);
   }
 
   @override
