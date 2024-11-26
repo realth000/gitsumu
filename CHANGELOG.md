@@ -1,8 +1,14 @@
+## 0.5.2
+
+### Fixed
+
+- Use raw string to avoid referencing variables in generated code for custom info.
+
 ## 0.5.1
 
 ### Fixed
 
-- Fix generating duplicate custom comand variables by running build_runner in the second time and later.
+- Fix generating duplicate custom command variables by running build_runner in the second time and later.
 
 ## 0.5.0
 
