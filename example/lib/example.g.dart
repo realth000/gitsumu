@@ -1,36 +1,36 @@
 part of 'example.dart';
 
 // Compile environment
-const flutterVersion         = '3.22.2';
+const flutterVersion         = '3.24.5';
 const flutterChannel         = 'stable';
-const flutterFrameworkRevision  = '761747bfc5';
-const flutterFrameworkTimestamp = '2024-06-05 22:15:13 +0200';
-const flutterEngineRevision  = 'edd8546116';
-const flutterDartVersion     = '3.4.3';
-const flutterDevToolsVersion = '2.34.3';
+const flutterFrameworkRevision  = 'dec2ee5c1f';
+const flutterFrameworkTimestamp = '2024-11-13 11:13:06 -0800';
+const flutterEngineRevision  = 'a18df97ca5';
+const flutterDartVersion     = '3.5.4';
+const flutterDevToolsVersion = '2.37.3';
 
-const dartVersion            = '3.4.3 (stable)';
+const dartVersion            = '3.5.4 (stable)';
 
 // Repo info
 const gitCommitTimeYear      = '2024';
-const gitCommitTimeMonth     = '02';
-const gitCommitTimeDay       = '01';
-const gitCommitTimeHour      = '15';
-const gitCommitTimeMinute    = '24';
-const gitCommitTimeSecond    = '52';
-const gitCommitTimeYMDHMS  = '2024-02-01 15:24:52';
+const gitCommitTimeMonth     = '08';
+const gitCommitTimeDay       = '23';
+const gitCommitTimeHour      = '01';
+const gitCommitTimeMinute    = '08';
+const gitCommitTimeSecond    = '46';
+const gitCommitTimeYMDHMS  = '2024-08-23 01:08:46';
 const gitCommitTimeTimezone  = '+0800';
-const gitCommitRevisionLong  = '6c60c4f903900ab9d5e4b0019eff3a8b9ad2b301';
-const gitCommitRevisionShort = '6c60c4f';
-const gitCommitCount         = '63';
+const gitCommitRevisionLong  = '146d076bd5511f32cfce7dc62536fa103b8d081f';
+const gitCommitRevisionShort = '146d076';
+const gitCommitCount         = '79';
 
 // App info
 const appName        = 'example';
 const appDescription = 'A sample command-line application.';
 const appVersion     = '1.0.0';
 
-// Custom info
-const myCommandResult = '''A command-line utility for Dart development.
+// @@start@@ myCommandResult
+const myCommandResult = r'''A command-line utility for Dart development.
 
 Usage: dart <command|dart-file> [arguments]
 
@@ -57,10 +57,19 @@ Available commands:
 
 Run "dart help <command>" for more information about a command.
 See https://dart.dev/tools/dart-tool for detailed documentation.''';
-const myCommandResult2 = '''''';
-const myCommandFromStderr = '''git：'abc' 不是一个 git 命令。参见 'git --help'。
+// @@end@@ myCommandResult
 
-最相似的命令是
+// @@start@@ myCommandResult2
+const myCommandResult2 = r'''''';
+// @@end@@ myCommandResult2
+
+// @@start@@ myCommandFromStderr
+const myCommandFromStderr = r'''git: 'abc' is not a git command. See 'git --help'.
+
+The most similar command is
 	add''';
-const myCommandResult3 = '''x86_64''';
-const myCommandResult4 = '''unknown''';
+// @@end@@ myCommandFromStderr
+
+// @@start@@ myCommandResult4
+const myCommandResult4 = r'''DESKTOP-TS6OVCN''';
+// @@end@@ myCommandResult4

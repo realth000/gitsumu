@@ -122,7 +122,7 @@ Future<String?> generateCustomInfo(
         verbosePrint(
             'command $commandAndArgs use default value which is not enabled on current platform $currentPlatform');
         resultList[annotation.name] = "\n// @@start@@ ${annotation.name}\n"
-            "const ${annotation.name} = '''${annotation.platformDefaultValue}''';\n"
+            "const ${annotation.name} = r'''${annotation.platformDefaultValue}''';\n"
             "// @@end@@ ${annotation.name}";
         continue;
       }
@@ -143,7 +143,7 @@ Future<String?> generateCustomInfo(
     final commandResult = annotation.useStderr ? err.trim() : out.trim();
     // Use ''' to allow multiple lines.
     resultList[annotation.name] = "\n// @@start@@ ${annotation.name}\n"
-        "const ${annotation.name} = '''$commandResult''';\n"
+        "const ${annotation.name} = r'''$commandResult''';\n"
         "// @@end@@ ${annotation.name}";
   }
 
