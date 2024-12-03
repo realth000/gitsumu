@@ -1,3 +1,9 @@
+## 0.5.3
+
+### Fixed
+
+- Support parsing custom SDK channels. Thanks @knthm
+
 ## 0.5.2
 
 ### Fixed
