@@ -185,7 +185,7 @@ Future<FlutterInfo?> getFlutterVersion() async {
   // Separate regexp into ASCII pieces to avoid encoding error on Windows.
   final re00 = RegExp(r'^Flutter (?<version>[0-9.]+).*');
   final version = re00.firstMatch(infoStringList[0])?.namedGroup('version');
-  final re01 = RegExp(r'channel (?<channel>\w+) .*');
+  final re01 = RegExp(r'channel (?<channel>\[?[\w-]+\]?) .*');
   final channel = re01.firstMatch(infoStringList[0])?.namedGroup('channel');
 
   final re11 = RegExp(r'revision (?<frameworkRevision>\w+) .*');
