@@ -12,46 +12,57 @@ Dart package provides code about compile environment (git info, flutter version 
 
 ## Introduction
 
-`gitsumu` provides the following info so that apps can use in code.
+`gitsumu` generates the following info as const variables.
 
 * [x] Git commit time.
 * [x] Git commit revision.
-* [x] Git commit count.
+* [x] Git commit count in repo.
+* [x] Git commit count on current branch.
 * [x] Flutter version.
 * [x] Dart version.
 * [x] App info in `pubspec.yaml`.
 * [x] Custom command.
 
 ```dart
+part of 'example.dart';
+
 // Compile environment
-const flutterVersion = '3.16.0';
-const flutterChannel = 'stable';
-const flutterFrameworkRevision = 'db7ef5bf9f';
-const flutterFrameworkTimestamp = '2023-11-15 11:25:44 -0800';
-const flutterEngineRevision = '74d16627b9';
-const flutterDartVersion = '3.2.0';
-const flutterDevToolsVersion = '2.28.2';
-const dartVersion = '3.2.0 (stable)';
+const flutterVersion         = '3.27.0';
+const flutterChannel         = 'stable';
+const flutterFrameworkRevision  = '8495dee1fd';
+const flutterFrameworkTimestamp = '2024-12-10 14:23:39 -0800';
+const flutterEngineRevision  = '83bacfc525';
+const flutterDartVersion     = '3.6.0';
+const flutterDevToolsVersion = '2.40.2';
+
+const dartVersion            = '3.6.0 (stable)';
 
 // Repo info
-const gitCommitTimeYear = '2023';
-const gitCommitTimeMonth = '11';
-const gitCommitTimeDay = '13';
-const gitCommitTimeHour = '17';
-const gitCommitTimeMinute = '36';
-const gitCommitTimeSecond = '29';
-const gitCommitTimeYMDHMS = '2023-11-13 17:36:29';
-const gitCommitTimeTimezone = '+0800';
-const gitCommitRevisionLong = 'eec78e9a88d93876a41c5a9bf4368cadcc8ccca8';
-const gitCommitRevisionShort = 'eec78e9';
+const gitCommitTimeYear      = '2024';
+const gitCommitTimeMonth     = '12';
+const gitCommitTimeDay       = '03';
+const gitCommitTimeHour      = '23';
+const gitCommitTimeMinute    = '35';
+const gitCommitTimeSecond    = '10';
+const gitCommitTimeYMDHMS  = '2024-12-03 23:35:10';
+const gitCommitTimeTimezone  = '+0800';
+const gitCommitRevisionLong  = 'b3a602b8fdf1067c3b8663c2d1ded45d0204f9b3';
+const gitCommitRevisionShort = 'b3a602b';
+@Deprecated('gitCommitCount was mistakenly implemented to count total commits from all branches in repo, causing a misleading meaning and should not be used anymore.\n'
+    'Use these alternatives instead:\n'
+    '1. To get commits count in repo as what it did before, use gitCommitCountRepo\n'
+    '2. To get commits count on current branch, use gitCommitCountCurrentBranch')
+const gitCommitCount         = '85';
+const gitCommitCountRepo           = '85';
+const gitCommitCountCurrentBranch = '83';
 
 // App info
-const appName = 'example';
+const appName        = 'example';
 const appDescription = 'A sample command-line application.';
-const appVersion = '1.0.0';
+const appVersion     = '1.0.0';
 
-// Custom info
-const myCommandResult = '''A command-line utility for Dart development.
+// @@start@@ myCommandResult
+const myCommandResult = r'''A command-line utility for Dart development.
 
 Usage: dart <command|dart-file> [arguments]
 
@@ -78,13 +89,22 @@ Available commands:
 
 Run "dart help <command>" for more information about a command.
 See https://dart.dev/tools/dart-tool for detailed documentation.''';
-const myCommandResult2 = '''''';
-const myCommandFromStderr = '''git: 'abc' is not a git command. See 'git --help'.
+// @@end@@ myCommandResult
+
+// @@start@@ myCommandResult2
+const myCommandResult2 = r'''''';
+// @@end@@ myCommandResult2
+
+// @@start@@ myCommandFromStderr
+const myCommandFromStderr = r'''git: 'abc' is not a git command. See 'git --help'.
 
 The most similar command is
 	add''';
-const myCommandResult3 = '''x86_64''';
-const myCommandResult4 = '''x86_64''';
+// @@end@@ myCommandFromStderr
+
+// @@start@@ myCommandResult4
+const myCommandResult4 = r'''HOST_NAME_HERE''';
+// @@end@@ myCommandResult4
 ```
 
 ## Features
@@ -132,37 +152,8 @@ Full example can be found in [example](example) folder.
    ```
 4. Run `dart run gitsumu` (Recommended) or `dart run build_runner build` before build to
    generate `lib/utils/git_info.g.dart`.
-5. Will generate code like this:
-   ```dart
-   part of 'example.dart';
-   
-   // Compile environment
-   const flutterVersion         = '3.16.0';
-   const flutterChannel         = 'stable';
-   const flutterFrameworkRevision  = 'db7ef5bf9f';
-   const flutterFrameworkTimestamp = '2023-11-15 11:25:44 -0800';
-   const flutterEngineRevision  = '74d16627b9';
-   const flutterDartVersion     = '3.2.0';
-   const flutterDevToolsVersion = '2.28.2';
-   const dartVersion            = '3.2.0 (stable)';
-   
-   // Repo info
-   const gitCommitTimeYear      = '2023';
-   const gitCommitTimeMonth     = '11';
-   const gitCommitTimeDay       = '26';
-   const gitCommitTimeHour      = '04';
-   const gitCommitTimeMinute    = '07';
-   const gitCommitTimeSecond    = '12';
-   const gitCommitTimeYMDHMS  = '2023-11-26 04:07:12';
-   const gitCommitTimeTimezone  = '+0800';
-   const gitCommitRevisionLong  = '927a949985f131e27f401287e7915b832f24b301';
-   const gitCommitRevisionShort = '927a949';
-   
-   // App info
-   const appName        = 'example';
-   const appDescription = 'A sample command-line application.';
-   const appVersion     = '1.0.0';
    ```
+5. Add 'import lib/utils/git_info.dart' when need the generated code.
 
 ### Custom info
 
@@ -200,7 +191,7 @@ const alsoNotImportantName3 = ['arch'];
 const alsoNotImportantName4 = ['hostname'];
 ```
 
-Variable name is not important, the generated code will use the arg in annotaion `@CustomInfo()` as variable's name.
+Variable name is not important, generated code will use the first argument in annotation `@CustomInfo()` as variable's name.
 
 Generated code:
 
@@ -244,14 +235,14 @@ const myCommandResult4 = '''unknown''';
 
 Options:
 
-* `ignoreStderr`: Still save contents if the custom command output contents to stderr. `bool` type, default is false.
+* `ignoreStderr`: Still save contents if the custom command write content to stderr. `bool` type, default is false.
 * `useStderr`: Save the content in stderr as result. `bool` type, default is false.
-* `platforms`: Specify only run the command on which platform, default value is all platforms.
+* `platforms`: Specify only run the command on which platform, default run on all platforms.
 * `platformDefaultValue`: Set the command result on platforms that not included in `platforms`, default is an empty string.
 
 ### Change save path
 
-Similar to other packages. Add the following lines to `build.yaml` will generat the file in `lib/generated/` directory:
+Works like other packages. Adding the following code to `build.yaml` will generate the file in `lib/generated/` directory:
 
 ```yaml
 targets:
