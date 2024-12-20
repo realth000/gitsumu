@@ -36,6 +36,10 @@ void main(List<String> args) {
   switch (args.first) {
     case 'gitRevisionLong':
       print(gitCommitRevisionLong);
+    case 'gitCommitCountRepo':
+      print(gitCommitCountRepo);
+    case 'gitCommitCountCurrentBranch':
+      print(gitCommitCountCurrentBranch);
     case 'customInfo':
       print(myCommandResult);
     case 'customInfo2':

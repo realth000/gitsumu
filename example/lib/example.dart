@@ -13,6 +13,8 @@ void printInfo() {
   print(
       'built with flutter: $flutterVersion $flutterChannel (framework=$flutterFrameworkRevision engine=$flutterEngineRevision)');
   print('built with dart: $dartVersion');
+  print('git commit count in repo: $gitCommitCountRepo');
+  print('git commit count on current branch: $gitCommitCountCurrentBranch');
 }
 
 @CustomInfo('myCommandResult')

@@ -9,7 +9,8 @@ import 'package:path/path.dart' as path;
 String formatInfo(
   String revisionShort,
   String revisionLong,
-  String commitCount,
+  String commitCountRepo,
+  String commitCountCurrentBranch,
   FlutterInfo? flutterInfo,
   GitCommitTimeInfo gitCommitTimeInfo,
   String dartVersion,
@@ -44,7 +45,13 @@ const gitCommitTimeYMDHMS  = '${gitCommitTimeInfo.year}-${gitCommitTimeInfo.mont
 const gitCommitTimeTimezone  = '${gitCommitTimeInfo.timeZone}';
 const gitCommitRevisionLong  = '$revisionLong';
 const gitCommitRevisionShort = '$revisionShort';
-const gitCommitCount         = '$commitCount';
+@Deprecated('gitCommitCount was mistakenly implemented to count total commits from all branches in repo, causing a misleading meaning and should not be used anymore.\\n'
+'Use these alternatives instead:\\n'
+'1. To get commits count in repo as what it did before, use gitCommitCountRepo\\n'
+'2. To get commits count on current branch, use gitCommitCountCurrentBranch')
+const gitCommitCount         = '$commitCountRepo';
+const gitCommitCountRepo          = '$commitCountRepo';
+const gitCommitCountCurrentBranch = '$commitCountCurrentBranch';
 
 // App info
 const appName        = '${appInfo.name}';
@@ -80,12 +87,20 @@ Future<String?> generateInfo(
   }
   verbosePrint('git revision short: $gitRevisionShort');
 
-  final gitCommitCount = await gitsumu.getGitCommitCount();
-  if (gitCommitCount == null) {
-    ePrint('git commit count not found');
+  final gitCommitCountRepo = await gitsumu.getGitCommitCountRepo();
+  if (gitCommitCountRepo == null) {
+    ePrint('git commit count repo not found');
     exit(1);
   }
-  verbosePrint('git commit count: $gitCommitCount');
+  verbosePrint('git commit count repo: $gitCommitCountRepo');
+
+  final gitCommitCountCurrentBranch =
+      await gitsumu.getGitCommitCountCurrentBranch();
+  if (gitCommitCountCurrentBranch == null) {
+    ePrint('git commit count current branch not found');
+    exit(1);
+  }
+  verbosePrint('git commit count current branch: $gitCommitCountCurrentBranch');
 
   final flutterInfo = await gitsumu.getFlutterVersion();
   if (flutterInfo == null) {
@@ -110,7 +125,8 @@ Future<String?> generateInfo(
   final code = formatInfo(
     gitRevisionShort,
     gitRevisionLong,
-    gitCommitCount,
+    gitCommitCountRepo,
+    gitCommitCountCurrentBranch,
     flutterInfo,
     gitCommitTimeInfo,
     dartVersion,

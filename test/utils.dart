@@ -89,6 +89,16 @@ class TestRepo {
     );
   }
 
+  Future<void> checkoutBranch(String branch, {bool create = false}) async {
+    print('checkout branch $branch, create=$create');
+    await _runCommandInDir(
+      'git',
+      create ? ['checkout', '-b', branch] : ['checkout', branch],
+      path: name,
+      supressErr: true,
+    );
+  }
+
   Future<void> generateCode({bool useBuildRunner = false}) async {
     print('generating code');
     if (useBuildRunner) {

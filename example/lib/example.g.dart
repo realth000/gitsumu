@@ -1,28 +1,34 @@
 part of 'example.dart';
 
 // Compile environment
-const flutterVersion         = '3.24.5';
+const flutterVersion         = '3.27.0';
 const flutterChannel         = 'stable';
-const flutterFrameworkRevision  = 'dec2ee5c1f';
-const flutterFrameworkTimestamp = '2024-11-13 11:13:06 -0800';
-const flutterEngineRevision  = 'a18df97ca5';
-const flutterDartVersion     = '3.5.4';
-const flutterDevToolsVersion = '2.37.3';
+const flutterFrameworkRevision  = '8495dee1fd';
+const flutterFrameworkTimestamp = '2024-12-10 14:23:39 -0800';
+const flutterEngineRevision  = '83bacfc525';
+const flutterDartVersion     = '3.6.0';
+const flutterDevToolsVersion = '2.40.2';
 
-const dartVersion            = '3.5.4 (stable)';
+const dartVersion            = '3.6.0 (stable)';
 
 // Repo info
 const gitCommitTimeYear      = '2024';
-const gitCommitTimeMonth     = '08';
-const gitCommitTimeDay       = '23';
-const gitCommitTimeHour      = '01';
-const gitCommitTimeMinute    = '08';
-const gitCommitTimeSecond    = '46';
-const gitCommitTimeYMDHMS  = '2024-08-23 01:08:46';
+const gitCommitTimeMonth     = '12';
+const gitCommitTimeDay       = '03';
+const gitCommitTimeHour      = '23';
+const gitCommitTimeMinute    = '35';
+const gitCommitTimeSecond    = '10';
+const gitCommitTimeYMDHMS  = '2024-12-03 23:35:10';
 const gitCommitTimeTimezone  = '+0800';
-const gitCommitRevisionLong  = '146d076bd5511f32cfce7dc62536fa103b8d081f';
-const gitCommitRevisionShort = '146d076';
-const gitCommitCount         = '79';
+const gitCommitRevisionLong  = 'b3a602b8fdf1067c3b8663c2d1ded45d0204f9b3';
+const gitCommitRevisionShort = 'b3a602b';
+@Deprecated('gitCommitCount was mistakenly implemented to count total commits from all branches in repo, causing a misleading meaning and should not be used anymore.\n'
+'Use these alternatives instead:\n'
+'1. To get commits count in repo as what it did before, use gitCommitCountRepo\n'
+'2. To get commits count on current branch, use gitCommitCountCurrentBranch')
+const gitCommitCount         = '85';
+const gitCommitCountRepo           = '85';
+const gitCommitCountCurrentBranch = '83';
 
 // App info
 const appName        = 'example';
