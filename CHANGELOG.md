@@ -1,3 +1,17 @@
+## 0.6.0
+
+### Added
+
+- Add `gitCommitCountRepo` to count commits in repo.
+- Add `gitCommitCountCurrentBranch` to count commits on current branch.
+
+### Deprecated
+
+- `gitCommitCount` has been deprecated.
+  - In former versions, `gitCommitCount` was mistakenly implemented to count all commits in repo while intended to count only on current branch.
+  - Use `gitCommitCountRepo` to count commits in repo, this is what `gitCommitCount` did before.
+  - Use `gitCommitCountCurrentBranch` to count commits on current branch.
+
 ## 0.5.3
 
 ### Fixed
