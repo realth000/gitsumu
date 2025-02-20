@@ -1,3 +1,11 @@
+## 0.7.0
+
+### Changed
+
+- dep: Allow `analyzer < 8.0.0`.
+- dep: Allow `source_gen < 3.0.0`.
+- dep: Update dependencies.
+
 ## 0.6.0
 
 ### Added
