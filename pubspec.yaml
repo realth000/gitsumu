@@ -1,6 +1,6 @@
 name: gitsumu
 description: Dart package provides code about compile environment (git info, flutter version ...).
-version: 0.7.0
+version: 0.7.1
 homepage: https://github.com/realth000/gitsumu
 repository: https://github.com/realth000/gitsumu
 issue_tracker: https://github.com/realth000/gitsumu/issues
@@ -10,10 +10,10 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  analyzer: '>=6.2.0 <8.0.0'
+  analyzer: ">=6.2.0 <8.0.0"
   build: ^2.4.1
   collection: ^1.16.0
-  source_gen: '>=1.4.0 <3.0.0'
+  source_gen: ">=1.4.0 <3.0.0"
   path: ^1.8.0
   args: ^2.4.2
   build_config: ^1.1.1
@@ -22,7 +22,3 @@ dependencies:
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0
-
-
-
-

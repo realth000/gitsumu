@@ -1,3 +1,10 @@
+## 0.7.1
+
+### Fixed
+
+- Capture beta version Dart version.
+  - The dart bundled with Flutter 3.38 is a beta one, use a loosy regex to capture it.
+
 ## 0.7.0
 
 ### Changed
