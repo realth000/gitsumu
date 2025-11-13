@@ -204,23 +204,18 @@ Future<FlutterInfo?> getFlutterVersion() async {
   final channel = re01.firstMatch(infoStringList[0])?.namedGroup('channel');
 
   final re11 = RegExp(r'revision (?<frameworkRevision>\w+) .*');
-  final frameworkRevision =
-      re11.firstMatch(infoStringList[1])?.namedGroup('frameworkRevision');
-  final re12 =
-      RegExp(r'(?<frameworkTimestamp>\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.*)$');
-  final frameworkTimestamp =
-      re12.firstMatch(infoStringList[1])?.namedGroup('frameworkTimestamp');
+  final frameworkRevision = re11.firstMatch(infoStringList[1])?.namedGroup('frameworkRevision');
+  final re12 = RegExp(r'(?<frameworkTimestamp>\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.*)$');
+  final frameworkTimestamp = re12.firstMatch(infoStringList[1])?.namedGroup('frameworkTimestamp');
 
   final re2 = RegExp(r'revision (?<revision>\w+)');
   final re2Match = re2.firstMatch(infoStringList[2]);
   final engineRevision = re2Match?.namedGroup('revision');
 
   final re31 = RegExp(r'Dart (?<dartVersion>[0-9.]+).* ');
-  final dartVersion =
-      re31.firstMatch(infoStringList[3])?.namedGroup('dartVersion');
+  final dartVersion = re31.firstMatch(infoStringList[3])?.namedGroup('dartVersion');
   final re32 = RegExp(r'DevTools (?<devToolsVersion>[0-9.]+)');
-  final devToolsVersion =
-      re32.firstMatch(infoStringList[3])?.namedGroup('devToolsVersion');
+  final devToolsVersion = re32.firstMatch(infoStringList[3])?.namedGroup('devToolsVersion');
 
   if (version == null ||
       channel == null ||
@@ -252,17 +247,18 @@ Future<String?> getDartVersion() async {
     return null;
   }
 
-  final re = RegExp(r'^Dart SDK version: (?<version>[0-9.]+ \(\w+\)).*');
+  // Beta version dart bundled with Flutter 3.38, use more loosy regexp:
+  //
+  // Dart SDK version: 3.10.0-290.4.beta (beta)
+  final re = RegExp(r'^Dart SDK version: (?<version>[\w.-]+ \(\w+\)).*');
   final reMatch = re.firstMatch(out.trim());
   final versionString = reMatch?.namedGroup('version');
   return versionString;
 }
 
 Future<AppInfo?> getAppInfo() async {
-  final configFile = Directory.current
-      .listSync()
-      .whereType<File>()
-      .firstWhereOrNull((e) => path.basename(e.path) == 'pubspec.yaml');
+  final configFile =
+      Directory.current.listSync().whereType<File>().firstWhereOrNull((e) => path.basename(e.path) == 'pubspec.yaml');
   if (configFile == null) {
     return null;
   }
@@ -272,18 +268,11 @@ Future<AppInfo?> getAppInfo() async {
 
   final lines = await configFile.readAsLines();
 
-  final name = re0
-      .firstMatch(lines.firstWhereOrNull((e) => re0.hasMatch(e)) ?? '')
-      ?.namedGroup('name');
-  final description = re1
-      .firstMatch(lines.firstWhereOrNull((e) => re1.hasMatch(e)) ?? '')
-      ?.namedGroup('description');
-  final version = re2
-      .firstMatch(lines.firstWhereOrNull((e) => re2.hasMatch(e)) ?? '')
-      ?.namedGroup('version');
+  final name = re0.firstMatch(lines.firstWhereOrNull((e) => re0.hasMatch(e)) ?? '')?.namedGroup('name');
+  final description = re1.firstMatch(lines.firstWhereOrNull((e) => re1.hasMatch(e)) ?? '')?.namedGroup('description');
+  final version = re2.firstMatch(lines.firstWhereOrNull((e) => re2.hasMatch(e)) ?? '')?.namedGroup('version');
   if (name == null || description == null || version == null) {
-    ePrint(
-        'incomplete app info: name=$name, description=$description, version=$version');
+    ePrint('incomplete app info: name=$name, description=$description, version=$version');
     return null;
   }
   return AppInfo(

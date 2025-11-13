@@ -1,34 +1,34 @@
 part of 'example.dart';
 
 // Compile environment
-const flutterVersion         = '3.27.0';
+const flutterVersion         = '3.38.0';
 const flutterChannel         = 'stable';
-const flutterFrameworkRevision  = '8495dee1fd';
-const flutterFrameworkTimestamp = '2024-12-10 14:23:39 -0800';
-const flutterEngineRevision  = '83bacfc525';
-const flutterDartVersion     = '3.6.0';
-const flutterDevToolsVersion = '2.40.2';
+const flutterFrameworkRevision  = 'a0e9b9dbf7';
+const flutterFrameworkTimestamp = '2025-11-11 15:00:09 -0600';
+const flutterEngineRevision  = 'cb467e31a5';
+const flutterDartVersion     = '3.10.0';
+const flutterDevToolsVersion = '2.51.1';
 
-const dartVersion            = '3.6.0 (stable)';
+const dartVersion            = '3.10.0-290.4.beta (beta)';
 
 // Repo info
-const gitCommitTimeYear      = '2024';
-const gitCommitTimeMonth     = '12';
-const gitCommitTimeDay       = '03';
-const gitCommitTimeHour      = '23';
-const gitCommitTimeMinute    = '35';
-const gitCommitTimeSecond    = '10';
-const gitCommitTimeYMDHMS  = '2024-12-03 23:35:10';
+const gitCommitTimeYear      = '2025';
+const gitCommitTimeMonth     = '02';
+const gitCommitTimeDay       = '20';
+const gitCommitTimeHour      = '21';
+const gitCommitTimeMinute    = '47';
+const gitCommitTimeSecond    = '26';
+const gitCommitTimeYMDHMS  = '2025-02-20 21:47:26';
 const gitCommitTimeTimezone  = '+0800';
-const gitCommitRevisionLong  = 'b3a602b8fdf1067c3b8663c2d1ded45d0204f9b3';
-const gitCommitRevisionShort = 'b3a602b';
+const gitCommitRevisionLong  = '1085135baea7e72df5ffbd6bf435a087b870e28a';
+const gitCommitRevisionShort = '1085135';
 @Deprecated('gitCommitCount was mistakenly implemented to count total commits from all branches in repo, causing a misleading meaning and should not be used anymore.\n'
 'Use these alternatives instead:\n'
 '1. To get commits count in repo as what it did before, use gitCommitCountRepo\n'
 '2. To get commits count on current branch, use gitCommitCountCurrentBranch')
-const gitCommitCount         = '85';
-const gitCommitCountRepo           = '85';
-const gitCommitCountCurrentBranch = '83';
+const gitCommitCount         = '93';
+const gitCommitCountRepo          = '93';
+const gitCommitCountCurrentBranch = '91';
 
 // App info
 const appName        = 'example';
@@ -49,17 +49,29 @@ Global options:
 -h, --help                  Print this usage information.
 
 Available commands:
-  analyze    Analyze Dart code in a directory.
-  compile    Compile Dart to various formats.
-  create     Create a new Dart project.
-  devtools   Open DevTools (optionally connecting to an existing application).
-  doc        Generate API documentation for Dart projects.
-  fix        Apply automated fixes to Dart source code.
-  format     Idiomatically format Dart source code.
-  info       Show diagnostic information about the installed tooling.
-  pub        Work with packages.
-  run        Run a Dart program.
-  test       Run tests for a project.
+
+Global
+  install     Install or upgrade a Dart CLI tool for global use.
+  installed   List globally installed Dart CLI tools.
+  uninstall   Remove a globally installed Dart CLI tool.
+
+Project
+  build       Build a Dart application including code assets.
+  compile     Compile Dart to various formats.
+  create      Create a new Dart project.
+  pub         Work with packages.
+  run         Run a Dart program.
+  test        Run tests for a project.
+
+Source code
+  analyze     Analyze Dart code in a directory.
+  doc         Generate API documentation for Dart projects.
+  fix         Apply automated fixes to Dart source code.
+  format      Idiomatically format Dart source code.
+
+Tools
+  devtools    Open DevTools (optionally connecting to an existing application).
+  info        Show diagnostic information about the installed tooling.
 
 Run "dart help <command>" for more information about a command.
 See https://dart.dev/tools/dart-tool for detailed documentation.''';
