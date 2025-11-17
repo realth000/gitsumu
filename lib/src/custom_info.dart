@@ -66,7 +66,9 @@ Future<String?> generateCustomInfo(
     }
 
     // Find annotation.
-    final annotation = d.metadata.firstWhereOrNull((e) => e.name.name == 'CustomInfo')?.parseToCustomInfo();
+    final annotation = d.metadata
+        .firstWhereOrNull((e) => e.name.name == 'CustomInfo')
+        ?.parseToCustomInfo();
     if (annotation == null) {
       ePrint('failed to parse for $d');
       continue;
@@ -86,7 +88,9 @@ Future<String?> generateCustomInfo(
     //
     // Package analyzer use `withNullability` as required parameter before 6.5.0
     // but marked deprecated since 6.5.0.
-    final variableType = variable.declaredFragment?.element.constantInitializer?.staticType?.getDisplayString();
+    final variableType = variable
+        .declaredFragment?.element.constantInitializer?.staticType
+        ?.getDisplayString();
     if (variableType != 'List<String>') {
       ePrint(
         'only support declaring custom commands using List<String>, got $variableType',
@@ -104,8 +108,10 @@ Future<String?> generateCustomInfo(
     // Here we get command and all arguments for it in a list.
     // The first element in list is command, and other elements are arguments,
     // may exist or not.
-    final commandAndArgs =
-        variable.initializer!.childEntities.whereType<StringLiteral>().map((e) => e.stringValue!).toList();
+    final commandAndArgs = variable.initializer!.childEntities
+        .whereType<StringLiteral>()
+        .map((e) => e.stringValue!)
+        .toList();
 
     if (!annotation.platforms.contains(currentPlatform)) {
       // Current platform not enabled.
@@ -157,7 +163,8 @@ Future<String?> generateCustomInfo(
   // // @@end@@ ${annotation.name}
   // ```
   if (outputFile.existsSync()) {
-    verbosePrint('output file exsits, stripping outdated custom variables came from build cache...');
+    verbosePrint(
+        'output file exsits, stripping outdated custom variables came from build cache...');
     final oldLines = await outputFile.readAsLines();
     final reservedLines = <String>[];
     bool skipping = false;
@@ -190,7 +197,10 @@ String? _getCurrentProjectRootDirectory() {
   Directory directory = Directory.current;
   int count = 5;
   while (count > 0) {
-    if (directory.listSync(recursive: false).firstWhereOrNull((e) => path.basename(e.path) == 'pubspec.yaml') != null) {
+    if (directory
+            .listSync(recursive: false)
+            .firstWhereOrNull((e) => path.basename(e.path) == 'pubspec.yaml') !=
+        null) {
       return directory.path;
     }
     directory = directory.parent;
@@ -224,7 +234,8 @@ extension ParseCustomInfo on Annotation {
           case 'platforms':
             platforms.addAll(_parsePlatformList(arg));
           case 'platformDefaultValue':
-            platformDefaultValue = (arg.expression as StringLiteral).stringValue;
+            platformDefaultValue =
+                (arg.expression as StringLiteral).stringValue;
         }
       }
     }
@@ -256,7 +267,8 @@ extension ParseCustomInfo on Annotation {
     final ret = <CustomInfoPlatforms>{};
     final platformList = (namedExpression.expression as SetOrMapLiteral)
         .elements
-        .where((e) => (e as Expression).staticType.toString() == "CustomInfoPlatforms")
+        .where((e) =>
+            (e as Expression).staticType.toString() == "CustomInfoPlatforms")
         .map((e) => (e as PrefixedIdentifier).identifier.toString())
         .toList();
 
