@@ -1,6 +1,6 @@
 name: gitsumu
 description: Dart package provides code about compile environment (git info, flutter version ...).
-version: 0.7.1
+version: 0.7.2
 homepage: https://github.com/realth000/gitsumu
 repository: https://github.com/realth000/gitsumu
 issue_tracker: https://github.com/realth000/gitsumu/issues
