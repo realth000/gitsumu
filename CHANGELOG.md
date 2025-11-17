@@ -1,3 +1,11 @@
+## 0.7.2
+
+### Changed
+
+- dep: Allow `analyzer < 9.0.0`
+- dep: Allow `build < 5.0.0`
+- dep: Allow `source_gen < 5.0.0`
+
 ## 0.7.1
 
 ### Fixed
