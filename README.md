@@ -27,39 +27,40 @@ Dart package provides code about compile environment (git info, flutter version 
 part of 'example.dart';
 
 // Compile environment
-const flutterVersion         = '3.27.0';
-const flutterChannel         = 'stable';
-const flutterFrameworkRevision  = '8495dee1fd';
-const flutterFrameworkTimestamp = '2024-12-10 14:23:39 -0800';
-const flutterEngineRevision  = '83bacfc525';
-const flutterDartVersion     = '3.6.0';
-const flutterDevToolsVersion = '2.40.2';
+const flutterVersion = '3.38.1';
+const flutterChannel = 'stable';
+const flutterFrameworkRevision = 'b45fa18946';
+const flutterFrameworkTimestamp = '2025-11-12 22:09:06 -0600';
+const flutterEngineRevision = 'b5990e5ccc';
+const flutterDartVersion = '3.10.0';
+const flutterDevToolsVersion = '2.51.1';
 
-const dartVersion            = '3.6.0 (stable)';
+const dartVersion = '3.10.0 (stable)';
 
 // Repo info
-const gitCommitTimeYear      = '2024';
-const gitCommitTimeMonth     = '12';
-const gitCommitTimeDay       = '03';
-const gitCommitTimeHour      = '23';
-const gitCommitTimeMinute    = '35';
-const gitCommitTimeSecond    = '10';
-const gitCommitTimeYMDHMS  = '2024-12-03 23:35:10';
-const gitCommitTimeTimezone  = '+0800';
-const gitCommitRevisionLong  = 'b3a602b8fdf1067c3b8663c2d1ded45d0204f9b3';
-const gitCommitRevisionShort = 'b3a602b';
-@Deprecated('gitCommitCount was mistakenly implemented to count total commits from all branches in repo, causing a misleading meaning and should not be used anymore.\n'
+const gitCommitTimeYear = '2025';
+const gitCommitTimeMonth = '11';
+const gitCommitTimeDay = '17';
+const gitCommitTimeHour = '22';
+const gitCommitTimeMinute = '58';
+const gitCommitTimeSecond = '08';
+const gitCommitTimeYMDHMS = '2025-11-17 22:58:08';
+const gitCommitTimeTimezone = '+0800';
+const gitCommitRevisionLong = '69b738204815c4cfdc3ccff31038aca70eae5d4b';
+const gitCommitRevisionShort = '69b7382';
+@Deprecated(
+    'gitCommitCount was mistakenly implemented to count total commits from all branches in repo, causing a misleading meaning and should not be used anymore.\n'
     'Use these alternatives instead:\n'
     '1. To get commits count in repo as what it did before, use gitCommitCountRepo\n'
     '2. To get commits count on current branch, use gitCommitCountCurrentBranch')
-const gitCommitCount         = '85';
-const gitCommitCountRepo           = '85';
-const gitCommitCountCurrentBranch = '83';
+const gitCommitCount = '101';
+const gitCommitCountRepo = '101';
+const gitCommitCountCurrentBranch = '99';
 
 // App info
-const appName        = 'example';
+const appName = 'example';
 const appDescription = 'A sample command-line application.';
-const appVersion     = '1.0.0';
+const appVersion = '1.0.0';
 
 // @@start@@ myCommandResult
 const myCommandResult = r'''A command-line utility for Dart development.
@@ -75,17 +76,29 @@ Global options:
 -h, --help                  Print this usage information.
 
 Available commands:
-  analyze    Analyze Dart code in a directory.
-  compile    Compile Dart to various formats.
-  create     Create a new Dart project.
-  devtools   Open DevTools (optionally connecting to an existing application).
-  doc        Generate API documentation for Dart projects.
-  fix        Apply automated fixes to Dart source code.
-  format     Idiomatically format Dart source code.
-  info       Show diagnostic information about the installed tooling.
-  pub        Work with packages.
-  run        Run a Dart program.
-  test       Run tests for a project.
+
+Global
+  install     Install or upgrade a Dart CLI tool for global use.
+  installed   List globally installed Dart CLI tools.
+  uninstall   Remove a globally installed Dart CLI tool.
+
+Project
+  build       Build a Dart application including code assets.
+  compile     Compile Dart to various formats.
+  create      Create a new Dart project.
+  pub         Work with packages.
+  run         Run a Dart program.
+  test        Run tests for a project.
+
+Source code
+  analyze     Analyze Dart code in a directory.
+  doc         Generate API documentation for Dart projects.
+  fix         Apply automated fixes to Dart source code.
+  format      Idiomatically format Dart source code.
+
+Tools
+  devtools    Open DevTools (optionally connecting to an existing application).
+  info        Show diagnostic information about the installed tooling.
 
 Run "dart help <command>" for more information about a command.
 See https://dart.dev/tools/dart-tool for detailed documentation.''';
@@ -99,12 +112,13 @@ const myCommandResult2 = r'''''';
 const myCommandFromStderr = r'''git: 'abc' is not a git command. See 'git --help'.
 
 The most similar command is
-	add''';
+ add''';
 // @@end@@ myCommandFromStderr
 
 // @@start@@ myCommandResult4
 const myCommandResult4 = r'''HOST_NAME_HERE''';
 // @@end@@ myCommandResult4
+
 ```
 
 ## Features
@@ -123,25 +137,32 @@ Of course this package supports both pure dart and flutter.
 Full example can be found in [example](example) folder.
 
 1. Add `gitsumu` to `pubspec.yaml`.
+
    ``` yaml
    dependencies:
      gitsumu: # current version
    ```
+
    Add `build_runner` to `pubspec.yaml` as dev dependency only if you want to use with `build_runner`.
+
    ``` yaml
    dev_dependencies:
      build_runner: # current version
    ```
+
    **Note that only `dart run gitsumu` support regeneration, you need to delete the existing generated file before
    using with `build_runner`. See [restrictions](#restrictions) for details.**
 2. Create a source file as an entry, for example `lib/utils/git_info.dart`.<br>
    In that source file the only line required is `part 'git_info.g.dart'`.<br>
    Looks like this:
+
    ``` dart
    // lib/utils/git_info.dart
    part 'git_info.g.dart';
    ```
+
 3. Save the following config in `build.yaml` to let `gitsumu` know which file should generate for.
+
    ```yaml
    targets:
      $default:
@@ -150,8 +171,10 @@ Full example can be found in [example](example) folder.
            generate_for:
              - lib/utils/git_info.dart
    ```
+
 4. Run `dart run gitsumu` (Recommended) or `dart run build_runner build` before build to
    generate `lib/utils/git_info.g.dart`.
+
    ```
 5. Add 'import lib/utils/git_info.dart' when need the generated code.
 
@@ -228,7 +251,7 @@ const myCommandResult2 = '''''';
 const myCommandFromStderr = '''git: 'abc' is not a git command. See 'git --help'.
 
 The most similar command is
-	add''';
+ add''';
 const myCommandResult3 = '''x86_64''';
 const myCommandResult4 = '''unknown''';
 ```
