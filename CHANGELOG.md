@@ -2,7 +2,7 @@
 
 ### Changed
 
-- dep: Allow `analyzer < 9.0.0`
+- dep: Use `analyzer >= 8.0.0`
 - dep: Allow `build < 5.0.0`
 - dep: Allow `source_gen < 5.0.0`
 
