@@ -1,3 +1,10 @@
+## 0.7.3
+
+### Changed
+
+- dep: Allow `analyzer < 11.0.0`
+  - `analyzer: >=8.0.0 <11.0.0`
+
 ## 0.7.2
 
 ### Changed
