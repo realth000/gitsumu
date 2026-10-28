@@ -1,40 +1,39 @@
 part of 'example.dart';
 
 // Compile environment
-const flutterVersion = '3.38.1';
-const flutterChannel = 'stable';
-const flutterFrameworkRevision = 'b45fa18946';
-const flutterFrameworkTimestamp = '2025-11-12 22:09:06 -0600';
-const flutterEngineRevision = 'b5990e5ccc';
-const flutterDartVersion = '3.10.0';
-const flutterDevToolsVersion = '2.51.1';
+const flutterVersion         = '3.44.7';
+const flutterChannel         = 'stable';
+const flutterFrameworkRevision  = '84fc5cbb22';
+const flutterFrameworkTimestamp = '2026-07-17 10:20:17 -0700';
+const flutterEngineRevision  = '69c8c61792';
+const flutterDartVersion     = '3.12.2';
+const flutterDevToolsVersion = '2.57.0';
 
-const dartVersion = '3.10.0 (stable)';
+const dartVersion            = '3.12.2 (stable)';
 
 // Repo info
-const gitCommitTimeYear = '2025';
-const gitCommitTimeMonth = '11';
-const gitCommitTimeDay = '17';
-const gitCommitTimeHour = '22';
-const gitCommitTimeMinute = '58';
-const gitCommitTimeSecond = '08';
-const gitCommitTimeYMDHMS = '2025-11-17 22:58:08';
-const gitCommitTimeTimezone = '+0800';
-const gitCommitRevisionLong = '69b738204815c4cfdc3ccff31038aca70eae5d4b';
-const gitCommitRevisionShort = '69b7382';
-@Deprecated(
-    'gitCommitCount was mistakenly implemented to count total commits from all branches in repo, causing a misleading meaning and should not be used anymore.\n'
-    'Use these alternatives instead:\n'
-    '1. To get commits count in repo as what it did before, use gitCommitCountRepo\n'
-    '2. To get commits count on current branch, use gitCommitCountCurrentBranch')
-const gitCommitCount = '101';
-const gitCommitCountRepo = '101';
-const gitCommitCountCurrentBranch = '99';
+const gitCommitTimeYear      = '2026';
+const gitCommitTimeMonth     = '03';
+const gitCommitTimeDay       = '05';
+const gitCommitTimeHour      = '23';
+const gitCommitTimeMinute    = '16';
+const gitCommitTimeSecond    = '14';
+const gitCommitTimeYMDHMS  = '2026-03-05 23:16:14';
+const gitCommitTimeTimezone  = '+0800';
+const gitCommitRevisionLong  = 'af5a01f44baf19742a159f65190dbdf7f608f2e5';
+const gitCommitRevisionShort = 'af5a01f';
+@Deprecated('gitCommitCount was mistakenly implemented to count total commits from all branches in repo, causing a misleading meaning and should not be used anymore.\n'
+'Use these alternatives instead:\n'
+'1. To get commits count in repo as what it did before, use gitCommitCountRepo\n'
+'2. To get commits count on current branch, use gitCommitCountCurrentBranch')
+const gitCommitCount         = '106';
+const gitCommitCountRepo          = '106';
+const gitCommitCountCurrentBranch = '104';
 
 // App info
-const appName = 'example';
+const appName        = 'example';
 const appDescription = 'A sample command-line application.';
-const appVersion = '1.0.0';
+const appVersion     = '1.0.0';
 
 // @@start@@ myCommandResult
 const myCommandResult = r'''A command-line utility for Dart development.
@@ -61,7 +60,7 @@ Project
   compile     Compile Dart to various formats.
   create      Create a new Dart project.
   pub         Work with packages.
-  run         Run a Dart program.
+  run         Run a Dart program from a file or a local or remote package.
   test        Run tests for a project.
 
 Source code
@@ -86,9 +85,9 @@ const myCommandResult2 = r'''''';
 const myCommandFromStderr = r'''git: 'abc' is not a git command. See 'git --help'.
 
 The most similar command is
-	add''';
+	bash''';
 // @@end@@ myCommandFromStderr
 
 // @@start@@ myCommandResult4
-const myCommandResult4 = r'''HOST_NAME_HERE''';
+const myCommandResult4 = r'''hostname''';
 // @@end@@ myCommandResult4
