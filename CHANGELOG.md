@@ -1,3 +1,12 @@
+## 0.7.4
+
+### Changed
+
+- dep: Use `analyzer >= 11.0.0`
+  - `analyzer: >=13.0.0 <15.0.0`
+- dep: Allow `build <= 6.0.0`
+  - `build: >=2.4.1 <6.0.0`
+
 ## 0.7.3
 
 ### Changed
